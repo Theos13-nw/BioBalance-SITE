@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BioBalance: Digestive Control | System Access Terminal</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --bg-deep: #050f23;
@@ -37,754 +33,308 @@
         }
 
         #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
         }
 
+        /* ── NAV ── */
         .nav-terminal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            position: fixed; top: 0; left: 0; right: 0;
             padding: 1rem 2rem;
             background: rgba(5, 15, 35, 0.95);
             border-bottom: 1px solid var(--border);
             z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             backdrop-filter: blur(10px);
         }
-
         .nav-logo {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--cyan);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+            font-size: 1.2rem; font-weight: 700; color: var(--cyan);
+            letter-spacing: 0.1em; text-transform: uppercase;
         }
-
+        .nav-right { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-link {
+            font-family: 'Courier New', monospace; font-size: 0.82rem;
+            font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+            text-decoration: none; cursor: pointer; transition: opacity 0.2s;
+            background: none; border: none; padding: 0;
+        }
+        .nav-link:hover { opacity: 0.65; }
+        .nav-link.purple { color: var(--purple); }
+        .nav-link.cyan   { color: var(--cyan); }
         .nav-status {
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-muted);
         }
-
         .nav-status::before {
-            content: '●';
-            color: var(--cyan);
-            margin-right: 0.5rem;
+            content: '●'; color: var(--cyan); margin-right: 0.5rem;
             animation: pulse 2s ease-in-out infinite;
         }
 
+        /* ── HERO ── */
         .hero-terminal {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-            padding: 2rem;
-            text-align: center;
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            position: relative; z-index: 10; padding: 2rem; text-align: center;
         }
-
         .hero-badge {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            margin-bottom: 2rem;
-            background: var(--panel);
-            letter-spacing: 0.15em;
+            font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--text-muted);
+            border: 1px solid var(--border); padding: 0.5rem 1.5rem; border-radius: 20px;
+            margin-bottom: 2rem; background: var(--panel); letter-spacing: 0.15em;
         }
-
         .hero-title {
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 900;
-            color: var(--cyan);
-            text-shadow: 0 0 30px var(--cyan-glow);
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-            line-height: 1;
+            font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; color: var(--cyan);
+            text-shadow: 0 0 30px var(--cyan-glow); letter-spacing: 0.05em;
+            margin-bottom: 0.5rem; line-height: 1;
         }
-
         .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: var(--text);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            font-weight: 300;
+            font-size: clamp(1.2rem, 3vw, 1.8rem); color: var(--text);
+            letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; font-weight: 300;
         }
-
         .hero-tagline {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 3rem;
-            font-weight: 300;
+            font-size: 1.1rem; color: var(--text-muted); max-width: 600px;
+            margin-bottom: 3rem; font-weight: 300;
         }
+        .hero-ctas { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
 
-        .hero-ctas {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
+        /* ── BUTTONS — all outline, no filled backgrounds ── */
         .btn-system {
             padding: 1rem 2.5rem;
             border: 2px solid var(--cyan);
             background: transparent;
             color: var(--cyan);
-            font-size: 1rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
+            font-size: 1rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+            cursor: pointer; border-radius: 8px;
+            position: relative; overflow: hidden;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
         }
-
         .btn-system::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
             background: linear-gradient(90deg, transparent, var(--cyan-glow), transparent);
             transition: left 0.5s;
         }
-
         .btn-system:hover {
-            background: var(--cyan);
-            color: var(--bg-deep);
-            box-shadow: 0 0 30px var(--cyan-glow);
+            background: rgba(0, 255, 200, 0.1);
+            box-shadow: 0 0 28px var(--cyan-glow);
             transform: translateY(-2px);
         }
-
         .btn-system:hover::before { left: 100%; }
 
-        .btn-system.primary {
-            background: var(--cyan);
-            color: var(--bg-deep);
-        }
-
-        .btn-system.primary:hover {
-            box-shadow: 0 0 40px var(--cyan-glow), inset 0 0 20px rgba(0,0,0,0.1);
-        }
-
         .btn-system.secondary {
-            border-color: var(--text-muted);
-            color: var(--text-muted);
+            border-color: var(--text-muted); color: var(--text-muted);
         }
-
         .btn-system.secondary:hover {
-            border-color: var(--cyan);
-            color: var(--cyan);
-            background: transparent;
+            border-color: var(--cyan); color: var(--cyan);
+            background: rgba(0, 255, 200, 0.06);
         }
 
-        .btn-system.mobile-special {
-            border-color: var(--purple);
-            color: var(--purple);
+        .btn-system.purple-btn {
+            border-color: var(--purple); color: var(--purple);
+        }
+        .btn-system.purple-btn::before {
+            background: linear-gradient(90deg, transparent, rgba(185,103,255,0.2), transparent);
+        }
+        .btn-system.purple-btn:hover {
+            background: rgba(185, 103, 255, 0.1);
+            box-shadow: 0 0 28px rgba(185,103,255,0.35);
         }
 
-        .btn-system.mobile-special:hover {
-            background: var(--purple);
-            color: var(--bg-deep);
-            box-shadow: 0 0 30px rgba(185, 103, 255, 0.4);
-        }
-
+        /* ── SECTIONS ── */
         .section {
-            padding: 6rem 2rem;
-            position: relative;
-            z-index: 10;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 6rem 2rem; position: relative; z-index: 10;
+            max-width: 1400px; margin: 0 auto;
         }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
+        .section-header { text-align: center; margin-bottom: 4rem; }
         .section-label {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: var(--cyan);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
+            font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--cyan);
+            letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem;
+            display: flex; align-items: center; justify-content: center; gap: 1rem;
         }
-
-        .section-label::before,
-        .section-label::after {
-            content: '';
-            width: 50px;
-            height: 1px;
-            background: var(--border);
+        .section-label::before, .section-label::after {
+            content: ''; width: 50px; height: 1px; background: var(--border);
         }
-
         .section-title {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: 0.05em;
-            margin-bottom: 1rem;
+            font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; color: var(--text);
+            letter-spacing: 0.05em; margin-bottom: 1rem;
         }
 
+        /* ── OVERVIEW ── */
         .overview-panel {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 3rem;
-            position: relative;
-            overflow: hidden;
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 20px; padding: 3rem; position: relative; overflow: hidden;
         }
-
         .overview-panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
-            opacity: 0.5;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.5;
         }
-
-        .overview-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .overview-text {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            line-height: 1.8;
-        }
-
+        .overview-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .overview-text { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
         .overview-text strong { color: var(--cyan); font-weight: 600; }
-
-        .overview-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
+        .overview-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
         .stat-box {
-            background: rgba(0, 255, 200, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
+            background: rgba(0, 255, 200, 0.05); border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.5rem; text-align: center;
         }
+        .stat-value { font-size: 1.6rem; font-weight: 700; color: var(--cyan); font-family: 'Courier New', monospace; }
+        .stat-label { font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem; }
 
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--cyan);
-            font-family: 'Courier New', monospace;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 0.5rem;
-        }
-
-        .phases-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
+        /* ── PHASES ── */
+        .phases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
         .phase-card {
-            background: var(--panel);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 2rem;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
+            background: var(--panel); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px;
+            padding: 2rem; position: relative; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;
         }
-
         .phase-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 4px;
-            background: var(--card-color);
-            opacity: 0;
-            transition: opacity 0.3s;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--card-color); opacity: 0; transition: opacity 0.3s;
         }
-
-        .phase-card:hover {
-            transform: scale(1.03);
-            border-color: var(--card-color);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px var(--card-glow);
-        }
-
+        .phase-card:hover { transform: scale(1.03); border-color: var(--card-color); box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px var(--card-glow); }
         .phase-card:hover::before { opacity: 1; }
-
-        .phase-card[data-phase="0"] { --card-color: var(--cyan); --card-glow: rgba(0,255,200,0.2); }
-        .phase-card[data-phase="1"] { --card-color: var(--red); --card-glow: rgba(255,100,100,0.2); }
-        .phase-card[data-phase="2"] { --card-color: var(--blue); --card-glow: rgba(100,150,255,0.2); }
+        .phase-card[data-phase="0"] { --card-color: var(--cyan);  --card-glow: rgba(0,255,200,0.2); }
+        .phase-card[data-phase="1"] { --card-color: var(--red);   --card-glow: rgba(255,100,100,0.2); }
+        .phase-card[data-phase="2"] { --card-color: var(--blue);  --card-glow: rgba(100,150,255,0.2); }
         .phase-card[data-phase="3"] { --card-color: var(--amber); --card-glow: rgba(255,200,50,0.2); }
+        .phase-number { font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--card-color); margin-bottom: 1rem; letter-spacing: 0.1em; }
+        .phase-title { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .phase-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .phase-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-muted); font-family: 'Courier New', monospace; }
+        .phase-status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--card-color); animation: pulse 2s ease-in-out infinite; }
+        .phase-progress { margin-top: 1.5rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+        .phase-progress-bar { height: 100%; background: var(--card-color); width: 0%; transition: width 1s ease-out; box-shadow: 0 0 10px var(--card-color); }
 
-        .phase-number {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: var(--card-color);
-            margin-bottom: 1rem;
-            letter-spacing: 0.1em;
-        }
-
-        .phase-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .phase-subtitle {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-        }
-
-        .phase-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-family: 'Courier New', monospace;
-        }
-
-        .phase-status::before {
-            content: '';
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--card-color);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .phase-progress {
-            margin-top: 1.5rem;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .phase-progress-bar {
-            height: 100%;
-            background: var(--card-color);
-            width: 0%;
-            transition: width 1s ease-out;
-            box-shadow: 0 0 10px var(--card-color);
-        }
-
-        .telemetry-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .telemetry-frame {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            aspect-ratio: 16/10;
-        }
-
-        .telemetry-header {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            padding: 0.75rem 1rem;
-            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            z-index: 10;
-        }
-
-        .telemetry-label {
-            color: var(--cyan);
-            letter-spacing: 0.1em;
-            font-weight: 600;
-        }
-
-        .telemetry-status {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-        }
-
-        .telemetry-status::before {
-            content: '●';
-            color: #ff0000;
-            animation: blink 1s step-end infinite;
-        }
-
+        /* ── TELEMETRY ── */
+        .telemetry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .telemetry-frame { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/10; }
+        .telemetry-header { position: absolute; top: 0; left: 0; right: 0; padding: 0.75rem 1rem; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; font-size: 0.75rem; z-index: 10; }
+        .telemetry-label { color: var(--cyan); letter-spacing: 0.1em; font-weight: 600; }
+        .telemetry-status { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); }
+        .telemetry-status::before { content: '●'; color: #ff0000; animation: blink 1s step-end infinite; }
         .telemetry-frame.active .telemetry-status::before { color: #00ff00; }
-
-        .telemetry-viewport {
-            width: 100%; height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .telemetry-viewport img {
-            width: 100%; height: 100%;
-            object-fit: contain;
-            object-position: center;
-            transition: transform 0.5s ease;
-        }
-
+        .telemetry-viewport { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        .telemetry-viewport img { width: 100%; height: 100%; object-fit: contain; object-position: center; transition: transform 0.5s ease; }
         .telemetry-frame:hover .telemetry-viewport img { transform: scale(1.05); }
-
-        .telemetry-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 1rem;
-            background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-            font-family: 'Courier New', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            transform: translateY(100%);
-            transition: transform 0.3s;
-            line-height: 1.6;
-        }
-
+        .telemetry-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%); font-family: 'Courier New', monospace; font-size: 0.7rem; color: var(--text-muted); transform: translateY(100%); transition: transform 0.3s; line-height: 1.6; }
         .telemetry-frame:hover .telemetry-overlay { transform: translateY(0); }
 
+        /* ── DOWNLOAD ── */
+        .download-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
         .deployment-terminal {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 3rem;
-            max-width: 800px;
-            margin: 0 auto;
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 15px; padding: 3rem;
         }
-
-        .terminal-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .terminal-prompt {
-            font-family: 'Courier New', monospace;
-            color: var(--cyan);
-            font-size: 1.2rem;
-        }
-
-        .terminal-command {
-            font-family: 'Courier New', monospace;
-            color: var(--text);
-            font-size: 1.2rem;
-            animation: type 3s steps(30) 1s forwards;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-        }
-
-        .terminal-body {
-            font-family: 'Courier New', monospace;
-            color: var(--text-muted);
-            line-height: 1.8;
-        }
-
-        .terminal-line {
-            margin-bottom: 0.5rem;
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
-        }
-
+        .deployment-terminal.mobile-terminal { border-color: rgba(185, 103, 255, 0.35); }
+        .terminal-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .terminal-prompt { font-family: 'Courier New', monospace; color: var(--cyan); font-size: 1.2rem; }
+        .terminal-prompt.purple { color: var(--purple); }
+        .terminal-command { font-family: 'Courier New', monospace; color: var(--text); font-size: 1rem; animation: type 3s steps(30) 1s forwards; white-space: nowrap; overflow: hidden; width: 0; }
+        .terminal-body { font-family: 'Courier New', monospace; color: var(--text-muted); line-height: 1.8; }
+        .terminal-line { margin-bottom: 0.5rem; opacity: 0; animation: fadeIn 0.5s forwards; }
         .terminal-line:nth-child(1) { animation-delay: 2s; }
         .terminal-line:nth-child(2) { animation-delay: 2.5s; }
         .terminal-line:nth-child(3) { animation-delay: 3s; }
         .terminal-line:nth-child(4) { animation-delay: 3.5s; }
-
         .terminal-highlight { color: var(--cyan); }
-
-        .terminal-warning {
-            background: rgba(255,200,0,0.1);
-            border-left: 3px solid var(--amber);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
-            color: var(--amber);
-            line-height: 1.8;
-        }
-
-        .drive-notice {
-            background: rgba(0,255,200,0.05);
-            border-left: 3px solid var(--cyan);
-            padding: 1rem;
-            margin: 1rem 0 0 0;
-            border-radius: 0 8px 8px 0;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.8;
-        }
-
-        .specs-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-        }
-
-        .specs-table td {
-            padding: 0.75rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.9rem;
-        }
-
+        .terminal-highlight.purple { color: var(--purple); }
+        .terminal-warning { background: rgba(255,200,0,0.1); border-left: 3px solid var(--amber); padding: 1rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; color: var(--amber); line-height: 1.8; font-size: 0.88rem; }
+        .terminal-info { background: rgba(185,103,255,0.07); border-left: 3px solid var(--purple); padding: 1rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; color: var(--text-muted); line-height: 1.8; font-size: 0.88rem; }
+        .drive-notice { background: rgba(0,255,200,0.05); border-left: 3px solid var(--cyan); padding: 1rem; margin: 1rem 0 0 0; border-radius: 0 8px 8px 0; color: var(--text-muted); font-size: 0.85rem; line-height: 1.8; }
+        .specs-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+        .specs-table td { padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
         .specs-table td:first-child { color: var(--text-muted); width: 40%; }
         .specs-table td:last-child { color: var(--text); }
 
-        .developer-grid {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
+        /* ── DEVELOPER ── */
+        .developer-grid { display: grid; grid-template-columns: 300px 1fr; gap: 3rem; align-items: start; }
         .developer-portrait { position: relative; }
-
-        .portrait-frame {
-            width: 100%;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            border: 3px solid var(--cyan);
-            padding: 10px;
-            position: relative;
-            background: var(--panel);
-            box-shadow: 0 0 30px var(--cyan-glow);
-        }
-
-        .portrait-inner {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0a1f3d 0%, #051020 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: var(--cyan);
-            overflow: hidden;
-        }
-
-        .portrait-ring {
-            position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top-color: var(--cyan);
-            border-right-color: var(--cyan);
-            animation: spin 10s linear infinite;
-        }
-
-        .developer-info h3 {
-            font-size: 2rem;
-            color: var(--text);
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.05em;
-        }
-
-        .developer-role {
-            color: var(--cyan);
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.1em;
-        }
-
-        .developer-email {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .developer-email a {
-            color: var(--cyan);
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
+        .portrait-frame { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 3px solid var(--cyan); padding: 10px; position: relative; background: var(--panel); box-shadow: 0 0 30px var(--cyan-glow); }
+        .portrait-inner { width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(135deg, #0a1f3d 0%, #051020 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: var(--cyan); overflow: hidden; }
+        .portrait-ring { position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border-radius: 50%; border: 2px solid transparent; border-top-color: var(--cyan); border-right-color: var(--cyan); animation: spin 10s linear infinite; }
+        .developer-info h3 { font-size: 2rem; color: var(--text); margin-bottom: 0.5rem; letter-spacing: 0.05em; }
+        .developer-role { color: var(--cyan); font-family: 'Courier New', monospace; font-size: 1rem; margin-bottom: 0.5rem; letter-spacing: 0.1em; }
+        .developer-email { font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .developer-email a { color: var(--cyan); text-decoration: none; transition: opacity 0.2s; }
         .developer-email a:hover { opacity: 0.7; }
+        .developer-bio { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; }
 
-        .developer-bio {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-
-        .system-footer {
-            background: rgba(5,15,35,0.98);
-            border-top: 1px solid var(--border);
-            padding: 2rem;
-            text-align: center;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            position: relative;
-            z-index: 10;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
+        /* ── FOOTER ── */
+        .system-footer { background: rgba(5,15,35,0.98); border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-muted); position: relative; z-index: 10; }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; flex-wrap: wrap; gap: 1rem; }
         .footer-system { color: var(--cyan); }
         .footer-copy { opacity: 0.7; }
-
-        .footer-email a {
-            color: var(--cyan);
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-
+        .footer-email a { color: var(--cyan); text-decoration: none; transition: opacity 0.2s; }
         .footer-email a:hover { opacity: 0.7; }
 
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        @keyframes type { to { width: 100%; } }
+        /* ── KEYFRAMES ── */
+        @keyframes pulse  { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes blink  { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes spin   { to { transform: rotate(360deg); } }
+        @keyframes type   { to { width: 100%; } }
         @keyframes fadeIn { to { opacity: 1; } }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ── TABLET (≤968px) ── */
+        /* ── TABLET (<=968px) ── */
         @media (max-width: 968px) {
             .section { padding: 4rem 1.5rem; }
             .nav-terminal { padding: 0.8rem 1.5rem; }
-
             .overview-content { grid-template-columns: 1fr; gap: 2rem; }
             .overview-panel { padding: 2rem; }
-
             .phases-grid { grid-template-columns: repeat(2, 1fr); }
-
             .telemetry-grid { grid-template-columns: repeat(2, 1fr); }
-
+            .download-grid { grid-template-columns: 1fr; }
             .deployment-terminal { padding: 2rem 1.5rem; }
             .specs-table td { font-size: 0.85rem; padding: 0.6rem; }
-
             .developer-grid { grid-template-columns: 1fr; text-align: center; }
             .developer-portrait { max-width: 220px; margin: 0 auto; }
             .developer-email { justify-content: center; }
             .developer-bio { font-size: 1rem; }
-
             .footer-content { flex-direction: column; text-align: center; gap: 0.5rem; }
         }
 
-        /* ── MOBILE (≤640px) ── */
+        /* ── MOBILE (<=640px) ── */
         @media (max-width: 640px) {
             .section { padding: 3rem 1rem; }
             .section-header { margin-bottom: 2rem; }
-
             .nav-terminal { padding: 0.75rem 1rem; }
-            .nav-status { font-size: 0.7rem; letter-spacing: 0; }
-
+            .nav-right { gap: 0.8rem; }
+            .nav-link { font-size: 0.72rem; }
+            .nav-status { display: none; }
             .hero-terminal { padding: 5rem 1.2rem 2rem; }
             .hero-badge { font-size: 0.7rem; letter-spacing: 0.08em; padding: 0.4rem 1rem; }
             .hero-tagline { font-size: 0.95rem; margin-bottom: 2rem; }
             .hero-ctas { flex-direction: column; width: 100%; max-width: 320px; gap: 0.8rem; }
             .btn-system { width: 100%; justify-content: center; padding: 0.9rem 1.5rem; }
-
             .overview-panel { padding: 1.5rem; }
             .overview-stats { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
             .stat-box { padding: 1rem; }
-            .stat-value { font-size: 1.6rem; }
-
+            .stat-value { font-size: 1.3rem; }
             .phases-grid { grid-template-columns: 1fr; gap: 1rem; }
             .phase-card { padding: 1.5rem; }
-
             .telemetry-grid { grid-template-columns: 1fr; gap: 1rem; }
             .telemetry-header { font-size: 0.65rem; padding: 0.5rem 0.75rem; }
-
             .deployment-terminal { padding: 1.5rem 1rem; }
-            .terminal-command { font-size: 0.85rem; }
-            .terminal-warning { font-size: 0.85rem; padding: 0.75rem; }
+            .terminal-command { font-size: 0.82rem; }
+            .terminal-warning, .terminal-info { font-size: 0.82rem; padding: 0.75rem; }
             .specs-table { display: block; }
             .specs-table tbody { display: block; }
             .specs-table tr { display: flex; flex-direction: column; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 0; }
             .specs-table td { display: block; width: 100%; border-bottom: none; padding: 0.2rem 0.4rem; font-size: 0.82rem; }
             .specs-table td:first-child { color: var(--cyan); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; }
             .drive-notice { font-size: 0.8rem; }
-
             .developer-portrait { max-width: 160px; }
             .developer-info h3 { font-size: 1.5rem; }
             .developer-role { font-size: 0.8rem; letter-spacing: 0.05em; }
             .developer-bio { font-size: 0.95rem; }
-
             .system-footer { padding: 1.5rem 1rem; font-size: 0.78rem; }
             .footer-content { gap: 0.4rem; }
-
             .section-label { font-size: 0.75rem; }
             .section-label::before, .section-label::after { width: 25px; }
         }
 
-        /* ── VERY SMALL (≤380px) ── */
+        /* ── VERY SMALL (<=380px) ── */
         @media (max-width: 380px) {
-            .nav-status { display: none; }
             .hero-badge { display: none; }
             .phases-grid { gap: 0.8rem; }
             .hero-title { font-size: 2.8rem; }
@@ -793,246 +343,207 @@
 </head>
 <body>
 
-    <canvas id="particle-canvas"></canvas>
+<canvas id="particle-canvas"></canvas>
 
-    <nav class="nav-terminal">
-        <div class="nav-logo">BioBalance</div>
+<!-- Nav -->
+<nav class="nav-terminal">
+    <div class="nav-logo">BioBalance</div>
+    <div class="nav-right">
+        <button class="nav-link purple" onclick="smoothScrollTo('download')">Mobile</button>
+        <button class="nav-link cyan"   onclick="smoothScrollTo('download')">Download</button>
         <div class="nav-status">SYSTEM ONLINE // v1.0.2026</div>
-    </nav>
+    </div>
+</nav>
 
-    <section class="hero-terminal">
-        <div class="hero-badge">EDUCATIONAL SIMULATION // DIGESTIVE SYSTEM</div>
-        <h1 class="hero-title">BioBalance</h1>
-        <p class="hero-subtitle">Digestive Control</p>
-        <p class="hero-tagline">Four phases. One digestive journey. Can you keep your body in balance?</p>
-        <div class="hero-ctas">
-            <a href="https://theos13-nw.github.io/BioBalanceMobile/" class="btn-system primary mobile-special" target="_blank">
-                <span>📱</span> Access Mobile Interface
-            </a>
-            <a href="#download" class="btn-system secondary">
-                <span>⬇</span> Download Windows (v1.0)
-            </a>
-        </div>
-    </section>
+<!-- Hero -->
+<section class="hero-terminal">
+    <div class="hero-badge">EDUCATIONAL SIMULATION // DIGESTIVE SYSTEM</div>
+    <h1 class="hero-title">BioBalance</h1>
+    <p class="hero-subtitle">Digestive Control</p>
+    <p class="hero-tagline">Four phases. One digestive journey. Can you keep your body in balance?</p>
+    <div class="hero-ctas">
+        <button class="btn-system purple-btn" onclick="smoothScrollTo('download')">
+            Access Mobile Version
+        </button>
+        <button class="btn-system" onclick="smoothScrollTo('download')">
+            Download for Windows
+        </button>
+        <button class="btn-system secondary" onclick="smoothScrollTo('overview')">
+            View System Specs
+        </button>
+    </div>
+</section>
 
-    <section class="section" id="overview">
-        <div class="section-header reveal">
-            <div class="section-label">System Documentation</div>
-            <h2 class="section-title">Simulation Overview</h2>
-        </div>
-        <div class="overview-panel reveal">
-            <div class="overview-content">
-                <div class="overview-text">
-                    <p><strong>BioBalance: Digestive Control</strong> is an interactive educational simulation designed to help students understand the processes of digestion and nutrient absorption in the human body. The game integrates <strong>structured learning phases</strong>, <strong>system-based interactions</strong>, and <strong>quiz-based reinforcement</strong> to promote active learning in biology classrooms.</p>
-                    <p style="margin-top: 1rem;">Navigate through four critical phases: Cephalic activation, Gastric processing, Duodenal homeostasis, and Villi absorption. Each phase features real-time feedback mechanisms, metabolic tracking, and mastery-based progression systems.</p>
+<!-- Overview -->
+<section class="section" id="overview">
+    <div class="section-header reveal">
+        <div class="section-label">System Documentation</div>
+        <h2 class="section-title">Simulation Overview</h2>
+    </div>
+    <div class="overview-panel reveal">
+        <div class="overview-content">
+            <div class="overview-text">
+                <p><strong>BioBalance: Digestive Control</strong> is an interactive educational simulation designed to help students understand the processes of digestion and nutrient absorption in the human body. The game integrates <strong>structured learning phases</strong>, <strong>system-based interactions</strong>, and <strong>quiz-based reinforcement</strong> to promote active learning in biology classrooms.</p>
+                <p style="margin-top: 1rem;">Navigate through four critical phases: Cephalic activation, Gastric processing, Duodenal homeostasis, and Villi absorption. Each phase features real-time feedback mechanisms, metabolic tracking, and mastery-based progression systems.</p>
+            </div>
+            <div class="overview-stats">
+                <div class="stat-box">
+                    <div class="stat-value">04</div>
+                    <div class="stat-label">System Phases</div>
                 </div>
-                <div class="overview-stats">
-                    <div class="stat-box">
-                        <div class="stat-value">04</div>
-                        <div class="stat-label">System Phases</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value">20+</div>
-                        <div class="stat-label">Quiz Questions</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value">100%</div>
-                        <div class="stat-label">Mastery Tracking</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value">Win64</div>
-                        <div class="stat-label">System Compatible</div>
-                    </div>
+                <div class="stat-box">
+                    <div class="stat-value">20+</div>
+                    <div class="stat-label">Quiz Questions</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Mastery Tracking</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">Win64 / iOS / Droid</div>
+                    <div class="stat-label">Platform Support</div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="section">
-        <div class="section-header reveal">
-            <div class="section-label">Process Architecture</div>
-            <h2 class="section-title">Phase Modules</h2>
+<!-- Phase Modules -->
+<section class="section">
+    <div class="section-header reveal">
+        <div class="section-label">Process Architecture</div>
+        <h2 class="section-title">Phase Modules</h2>
+    </div>
+    <div class="phases-grid">
+        <div class="phase-card" data-phase="0">
+            <div class="phase-number">PHASE 00</div>
+            <h3 class="phase-title">Sensory<br>Override</h3>
+            <p class="phase-subtitle">Cephalic Phase</p>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Vagus nerve activation through sensory stimulation. Metabolic preparation including insulin response and hepatic glucose modulation.</p>
+            <div class="phase-status">SYSTEM READY</div>
+            <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
         </div>
-        <div class="phases-grid">
-            <div class="phase-card" data-phase="0">
-                <div class="phase-number">PHASE 00</div>
-                <h3 class="phase-title">Sensory<br>Override</h3>
-                <p class="phase-subtitle">Cephalic Phase</p>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Vagus nerve activation through sensory stimulation. Metabolic preparation including insulin response and hepatic glucose modulation.</p>
-                <div class="phase-status">SYSTEM READY</div>
-                <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
-            </div>
-            <div class="phase-card" data-phase="1">
-                <div class="phase-number">PHASE 01</div>
-                <h3 class="phase-title">Acid<br>Control</h3>
-                <p class="phase-subtitle">Gastric Phase</p>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">pH-dependent pepsin activation with denaturation risk modeling. Protein digestion mechanics, enzyme concentration tracking, and mucosal protection systems.</p>
-                <div class="phase-status">SYSTEM READY</div>
-                <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
-            </div>
-            <div class="phase-card" data-phase="2">
-                <div class="phase-number">PHASE 02</div>
-                <h3 class="phase-title">Hormonal Defense</h3>
-                <p class="phase-subtitle">Intestinal Phase</p>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Dual-hormone coordination via Secretin and CCK. Chyme neutralization and enzymatic preparation for macronutrient processing.</p>
-                <div class="phase-status">SYSTEM READY</div>
-                <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
-            </div>
-            <div class="phase-card" data-phase="3">
-                <div class="phase-number">PHASE 03</div>
-                <h3 class="phase-title">Absorption Protocol</h3>
-                <p class="phase-subtitle">Villi Transport</p>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Selective nutrient transport through SGLT1, NHE3, and lymphatic channels. Co-transport mechanics and membrane selectivity modeling.</p>
-                <div class="phase-status">SYSTEM READY</div>
-                <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
-            </div>
+        <div class="phase-card" data-phase="1">
+            <div class="phase-number">PHASE 01</div>
+            <h3 class="phase-title">Acid<br>Control</h3>
+            <p class="phase-subtitle">Gastric Phase</p>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">pH-dependent pepsin activation with denaturation risk modeling. Protein digestion mechanics, enzyme concentration tracking, and mucosal protection systems.</p>
+            <div class="phase-status">SYSTEM READY</div>
+            <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
         </div>
-    </section>
+        <div class="phase-card" data-phase="2">
+            <div class="phase-number">PHASE 02</div>
+            <h3 class="phase-title">Hormonal Defense</h3>
+            <p class="phase-subtitle">Intestinal Phase</p>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Dual-hormone coordination via Secretin and CCK. Chyme neutralization and enzymatic preparation for macronutrient processing.</p>
+            <div class="phase-status">SYSTEM READY</div>
+            <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
+        </div>
+        <div class="phase-card" data-phase="3">
+            <div class="phase-number">PHASE 03</div>
+            <h3 class="phase-title">Absorption Protocol</h3>
+            <p class="phase-subtitle">Villi Transport</p>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Selective nutrient transport through SGLT1, NHE3, and lymphatic channels. Co-transport mechanics and membrane selectivity modeling.</p>
+            <div class="phase-status">SYSTEM READY</div>
+            <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
+        </div>
+    </div>
+</section>
 
-    <section class="section">
-        <div class="section-header reveal">
-            <div class="section-label">Live Feeds</div>
-            <h2 class="section-title">Visual Telemetry</h2>
+<!-- Visual Telemetry -->
+<section class="section">
+    <div class="section-header reveal">
+        <div class="section-label">Live Feeds</div>
+        <h2 class="section-title">Visual Telemetry</h2>
+    </div>
+    <div class="telemetry-grid">
+        <div class="telemetry-frame reveal">
+            <div class="telemetry-header"><span class="telemetry-label">CAM_01 // JOURNEY_MAP</span><span class="telemetry-status">LIVE</span></div>
+            <div class="telemetry-viewport"><img src="images/screenshot-menu.png" alt="Journey Map"></div>
+            <div class="telemetry-overlay">> System Grid: ONLINE<br>> Phase Selection: ACTIVE<br>> Integrity Monitor: 100%</div>
         </div>
-        <div class="telemetry-grid">
-            <div class="telemetry-frame reveal">
-                <div class="telemetry-header">
-                    <span class="telemetry-label">CAM_01 // JOURNEY_MAP</span>
-                    <span class="telemetry-status">LIVE</span>
-                </div>
-                <div class="telemetry-viewport">
-                    <img src="images/screenshot-menu.png" alt="Journey Map - Main Menu Interface">
-                </div>
-                <div class="telemetry-overlay">
-                    > System Grid: ONLINE<br>
-                    > Phase Selection: ACTIVE<br>
-                    > Integrity Monitor: 100%
-                </div>
-            </div>
-            <div class="telemetry-frame reveal">
-                <div class="telemetry-header">
-                    <span class="telemetry-label">CAM_02 // CEPHALIC_PHASE</span>
-                    <span class="telemetry-status">LIVE</span>
-                </div>
-                <div class="telemetry-viewport">
-                    <img src="images/screenshot-cephalic.png" alt="Cephalic Phase - Sensory Stimulation">
-                </div>
-                <div class="telemetry-overlay">
-                    > Vagus Nerve: STIMULATED<br>
-                    > Metabolic Prep: ACTIVE<br>
-                    > Saliva Accumulation: 170/170
-                </div>
-            </div>
-            <div class="telemetry-frame reveal">
-                <div class="telemetry-header">
-                    <span class="telemetry-label">CAM_03 // GASTRIC_PHASE</span>
-                    <span class="telemetry-status">LIVE</span>
-                </div>
-                <div class="telemetry-viewport">
-                    <img src="images/screenshot-gastric.png" alt="Gastric Phase - Acid Control">
-                </div>
-                <div class="telemetry-overlay">
-                    > pH Level: 2.0 [OPTIMAL]<br>
-                    > Pepsin Status: ACTIVE<br>
-                    > Protein Digestion: 87%
-                </div>
-            </div>
-            <div class="telemetry-frame reveal">
-                <div class="telemetry-header">
-                    <span class="telemetry-label">CAM_04 // DUODENAL_PHASE</span>
-                    <span class="telemetry-status">LIVE</span>
-                </div>
-                <div class="telemetry-viewport">
-                    <img src="images/screenshot-duodenal.png" alt="Duodenal Phase - Hormonal Defense">
-                </div>
-                <div class="telemetry-overlay">
-                    > Secretin: 185/200 [HIGH]<br>
-                    > CCK: 192/200 [HIGH]<br>
-                    > Homeostasis: ACHIEVED
-                </div>
-            </div>
-            <div class="telemetry-frame reveal">
-                <div class="telemetry-header">
-                    <span class="telemetry-label">CAM_05 // VILLI_TRANSPORT</span>
-                    <span class="telemetry-status">LIVE</span>
-                </div>
-                <div class="telemetry-viewport">
-                    <img src="images/screenshot-absorption.png" alt="Villi Phase - Nutrient Absorption">
-                </div>
-                <div class="telemetry-overlay">
-                    > SGLT1 Co-transport: ACTIVE<br>
-                    > NHE3 Exchange: ACTIVE<br>
-                    > Lacteal Uptake: 100%
-                </div>
-            </div>
-            <div class="telemetry-frame reveal">
-                <div class="telemetry-header">
-                    <span class="telemetry-label">CAM_06 // REFLECTION_GATE</span>
-                    <span class="telemetry-status">LIVE</span>
-                </div>
-                <div class="telemetry-viewport">
-                    <img src="images/screenshot-reflectiongate.png" alt="Reflection Gate - Mastery Assessment">
-                </div>
-                <div class="telemetry-overlay">
-                    > Quiz Protocol: ACTIVE<br>
-                    > Mastery Tracking: ENABLED<br>
-                    > Current Score: 5/5 [PERFECT]
-                </div>
-            </div>
+        <div class="telemetry-frame reveal">
+            <div class="telemetry-header"><span class="telemetry-label">CAM_02 // CEPHALIC_PHASE</span><span class="telemetry-status">LIVE</span></div>
+            <div class="telemetry-viewport"><img src="images/screenshot-cephalic.png" alt="Cephalic Phase"></div>
+            <div class="telemetry-overlay">> Vagus Nerve: STIMULATED<br>> Metabolic Prep: ACTIVE<br>> Saliva Accumulation: 170/170</div>
         </div>
-    </section>
+        <div class="telemetry-frame reveal">
+            <div class="telemetry-header"><span class="telemetry-label">CAM_03 // GASTRIC_PHASE</span><span class="telemetry-status">LIVE</span></div>
+            <div class="telemetry-viewport"><img src="images/screenshot-gastric.png" alt="Gastric Phase"></div>
+            <div class="telemetry-overlay">> pH Level: 2.0 [OPTIMAL]<br>> Pepsin Status: ACTIVE<br>> Protein Digestion: 87%</div>
+        </div>
+        <div class="telemetry-frame reveal">
+            <div class="telemetry-header"><span class="telemetry-label">CAM_04 // DUODENAL_PHASE</span><span class="telemetry-status">LIVE</span></div>
+            <div class="telemetry-viewport"><img src="images/screenshot-duodenal.png" alt="Duodenal Phase"></div>
+            <div class="telemetry-overlay">> Secretin: 185/200 [HIGH]<br>> CCK: 192/200 [HIGH]<br>> Homeostasis: ACHIEVED</div>
+        </div>
+        <div class="telemetry-frame reveal">
+            <div class="telemetry-header"><span class="telemetry-label">CAM_05 // VILLI_TRANSPORT</span><span class="telemetry-status">LIVE</span></div>
+            <div class="telemetry-viewport"><img src="images/screenshot-absorption.png" alt="Villi Phase"></div>
+            <div class="telemetry-overlay">> SGLT1 Co-transport: ACTIVE<br>> NHE3 Exchange: ACTIVE<br>> Lacteal Uptake: 100%</div>
+        </div>
+        <div class="telemetry-frame reveal">
+            <div class="telemetry-header"><span class="telemetry-label">CAM_06 // REFLECTION_GATE</span><span class="telemetry-status">LIVE</span></div>
+            <div class="telemetry-viewport"><img src="images/screenshot-reflectiongate.png" alt="Reflection Gate"></div>
+            <div class="telemetry-overlay">> Quiz Protocol: ACTIVE<br>> Mastery Tracking: ENABLED<br>> Current Score: 5/5 [PERFECT]</div>
+        </div>
+    </div>
+</section>
 
-    <section class="section" id="download">
-        <div class="section-header reveal">
-            <div class="section-label">System Deployment</div>
-            <h2 class="section-title">Download Module</h2>
-        </div>
+<!-- Download Module -->
+<section class="section" id="download">
+    <div class="section-header reveal">
+        <div class="section-label">System Deployment</div>
+        <h2 class="section-title">Download Module</h2>
+    </div>
 
-        <div class="deployment-terminal reveal" style="margin-bottom: 2rem; border-color: var(--purple);">
+    <div class="download-grid">
+
+        <!-- Mobile / PWA -->
+        <div class="deployment-terminal mobile-terminal reveal">
             <div class="terminal-header">
-                <span class="terminal-prompt">></span>
-                <span class="terminal-command">CONNECT https://theos13-nw.github.io/BioBalanceMobile/</span>
+                <span class="terminal-prompt purple">&gt;</span>
+                <span class="terminal-command">CONNECT BioBalanceMobile // PWA</span>
             </div>
             <div class="terminal-body">
                 <div class="terminal-line">
-                    <span class="terminal-highlight">[NETWORK]</span> Establishing secure handshake with GitHub Pages...
+                    <span class="terminal-highlight purple">[NETWORK]</span> Locating GitHub Pages endpoint...
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-highlight">[REMOTE]</span> Mobile-optimized viewport detected
+                    <span class="terminal-highlight purple">[STATUS]</span> Interface ready — Android / iOS
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-highlight purple">[MODE]</span> Installation required, also runs in browser
+                </div>
+
+                <div class="terminal-info">
+                    An active internet connection is required on the first load only. Once visited, the PWA caches all game assets locally and can be played completely offline — no Wi-Fi or data needed after that. Install it to your home screen for a full-screen, app-like experience.
                 </div>
 
                 <table class="specs-table">
-                    <tr>
-                        <td>PLATFORM</td>
-                        <td>Web Browser (Chrome/Safari/Firefox)</td>
-                    </tr>
-                    <tr>
-                        <td>OPTIMIZATION</td>
-                        <td>PWA Ready / Touch-Enabled</td>
-                    </tr>
-                    <tr>
-                        <td>CONNECTIVITY</td>
-                        <td>Requires Active Internet Connection</td>
-                    </tr>
-                    <tr>
-                        <td>SOURCE</td>
-                        <td>theos13-nw.github.io</td>
-                    </tr>
+                    <tr><td>PLATFORM</td><td>Android (Chrome) / iOS (Safari)</td></tr>
+                    <tr><td>TYPE</td><td>Progressive Web App (PWA)</td></tr>
+                    <tr><td>INSTALL</td><td>Add to Home Screen/ Click Install</td></tr>
+                    <tr><td>OFFLINE</td><td>Yes — after first online load</td></tr>
+                    <tr><td>ORIENTATION</td><td>Landscape Only</td></tr>
+                    <tr><td>SOURCE</td><td>theos13-nw.github.io/BioBalanceMobile</td></tr>
                 </table>
 
-                <div style="margin-top: 2rem; text-align: center;">
-                    <a href="https://theos13-nw.github.io/BioBalanceMobile/" 
-                       class="btn-system primary mobile-special" 
+                <div style="margin-top:2rem;text-align:center;">
+                    <a href="https://theos13-nw.github.io/BioBalanceMobile/"
+                       class="btn-system purple-btn"
+                       style="padding:1.2rem 3rem;font-size:1.1rem;"
                        target="_blank">
-                        <span>⚡</span> LAUNCH WEB APP
+                        Initiate Install
                     </a>
                 </div>
             </div>
         </div>
 
+        <!-- Windows -->
         <div class="deployment-terminal reveal">
             <div class="terminal-header">
-                <span class="terminal-prompt">></span>
+                <span class="terminal-prompt">&gt;</span>
                 <span class="terminal-command">EXECUTE BioBalance_Setup_v1.exe</span>
             </div>
             <div class="terminal-body">
@@ -1047,183 +558,162 @@
                 </div>
 
                 <div class="terminal-warning">
-                    ⚠ SECURITY PROTOCOL: If Windows displays a SmartScreen warning, select "More Info" → "Run Anyway". This is normal for unsigned academic software. This application was developed by Altheo Cardillo, 2026.
+                    SECURITY PROTOCOL: If Windows displays a SmartScreen warning, select "More Info" then "Run Anyway". This is normal for unsigned academic software. Developed by Altheo Cardillo, 2026.
                 </div>
 
                 <table class="specs-table">
-                    <tr>
-                        <td>FILE_SIZE</td>
-                        <td>~173 MB (self-extracting installer)</td>
-                    </tr>
-                    <tr>
-                        <td>PLATFORM</td>
-                        <td>Windows 10/11 (64-bit)</td>
-                    </tr>
-                    <tr>
-                        <td>REQUIREMENTS</td>
-                        <td>4GB RAM, OpenGL 2.0, Audio enabled</td>
-                    </tr>
-                    <tr>
-                        <td>LICENSE</td>
-                        <td>Educational Use Only (CC BY-NC-ND 4.0)</td>
-                    </tr>
-                    <tr>
-                        <td>HOST</td>
-                        <td>Google Drive (direct download)</td>
-                    </tr>
+                    <tr><td>FILE_SIZE</td><td>~173 MB (self-extracting installer)</td></tr>
+                    <tr><td>PLATFORM</td><td>Windows 10/11 (64-bit)</td></tr>
+                    <tr><td>REQUIREMENTS</td><td>4GB RAM, OpenGL 2.0, Audio enabled</td></tr>
+                    <tr><td>LICENSE</td><td>Educational Use Only (CC BY-NC-ND 4.0)</td></tr>
+                    <tr><td>HOST</td><td>Google Drive (direct download)</td></tr>
                 </table>
 
-                <div style="margin-top: 2rem; text-align: center;">
+                <div style="margin-top:2rem;text-align:center;">
                     <a href="https://drive.google.com/uc?export=download&id=1God6F1XDsi8Zl1-ne-5J8sIxjiZFRACd"
-                       class="btn-system primary"
-                       style="padding: 1.2rem 3rem; font-size: 1.1rem;"
+                       class="btn-system"
+                       style="padding:1.2rem 3rem;font-size:1.1rem;"
                        target="_blank">
-                        <span>⬇</span> INITIATE DOWNLOAD
+                        Initiate Download
                     </a>
                     <div class="drive-notice">
-                        ℹ Google Drive may show a <strong style="color:var(--cyan)">"Can't scan for viruses"</strong> warning
-                        because the file is over 100MB. This is expected — simply click
+                        Google Drive may show a <strong style="color:var(--cyan)">"Can't scan for viruses"</strong> warning
+                        because the file exceeds 100MB. This is expected — click
                         <strong style="color:var(--cyan)">"Download anyway"</strong> to proceed.
                         The file is safe academic software.
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="section">
-        <div class="section-header reveal">
-            <div class="section-label">System Architect</div>
-            <h2 class="section-title">Developer Profile</h2>
-        </div>
-        <div class="developer-grid reveal">
-            <div class="developer-portrait">
-                <div class="portrait-frame">
-                    <div class="portrait-ring"></div>
-                    <div class="portrait-inner">
-                        <span style="font-size: 5rem;">👤</span>
-                    </div>
+    </div>
+</section>
+
+<!-- Developer Profile -->
+<section class="section">
+    <div class="section-header reveal">
+        <div class="section-label">System Architect</div>
+        <h2 class="section-title">Developer Profile</h2>
+    </div>
+    <div class="developer-grid reveal">
+        <div class="developer-portrait">
+            <div class="portrait-frame">
+                <div class="portrait-ring"></div>
+                <div class="portrait-inner">
+                    <span style="font-size:5rem;">&#128100;</span>
                 </div>
             </div>
-            <div class="developer-info">
-                <h3>Altheo Cardillo</h3>
-                <div class="developer-role">SYSTEM DESIGNER // EDUCATIONAL APPLICATION</div>
-                <div class="developer-email">
-                    <span>✉</span>
-                    <a href="mailto:altheocardillo15@gmail.com">altheocardillo15@gmail.com</a>
-                </div>
-                <p class="developer-bio">
-                   A Bachelor of Secondary Education student majoring in General Science, getting into interactive simulations and science-based learning systems. BioBalance: Digestive Control represents an initiative to create offline, engaging, and accessible biology education tools through immersive gameplay mechanics and mastery-based progression systems.                </p>
-            </div>
         </div>
-    </section>
-
-    <footer class="system-footer">
-        <div class="footer-content">
-            <div class="footer-system">BioBalance: Digestive Control // v1.0.2026</div>
-            <div class="footer-copy">© 2026 Altheo Cardillo</div>
-            <div class="footer-email">
+        <div class="developer-info">
+            <h3>Altheo Cardillo</h3>
+            <div class="developer-role">SYSTEM DESIGNER // EDUCATIONAL APPLICATION</div>
+            <div class="developer-email">
+                <span>&#9993;</span>
                 <a href="mailto:altheocardillo15@gmail.com">altheocardillo15@gmail.com</a>
             </div>
+            <p class="developer-bio">
+                A Bachelor of Secondary Education student majoring in General Science, getting into interactive simulations and science-based learning systems. BioBalance: Digestive Control represents an initiative to create offline, engaging, and accessible biology education tools through immersive gameplay mechanics and mastery-based progression systems.
+            </p>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script>
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const particleCount = 50;
+<!-- Footer -->
+<footer class="system-footer">
+    <div class="footer-content">
+        <div class="footer-system">BioBalance: Digestive Control // v1.0.2026</div>
+        <div class="footer-copy">&copy; 2026 Altheo Cardillo</div>
+        <div class="footer-email">
+            <a href="mailto:altheocardillo15@gmail.com">altheocardillo15@gmail.com</a>
+        </div>
+    </div>
+</footer>
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+<script>
+    // ── Internal smooth scroll — no href hash, no URL change ─────────
+    function smoothScrollTo(id) {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ── Particle background ───────────────────────────────────────────
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+        constructor() { this.reset(); this.y = Math.random() * canvas.height; }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = canvas.height + 20;
+            this.vy = Math.random() * 0.5 + 0.2;
+            this.alpha = Math.random() * 0.3 + 0.1;
+            this.size = Math.random() * 3 + 1;
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * canvas.height;
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 20;
-                this.vy = Math.random() * 0.5 + 0.2;
-                this.alpha = Math.random() * 0.3 + 0.1;
-                this.size = Math.random() * 3 + 1;
-            }
-            update() {
-                this.y -= this.vy;
-                this.x += Math.sin(this.y * 0.01 + this.x * 0.01) * 0.3;
-                if (this.y < -20) this.reset();
-                this.alpha = 0.1 + Math.sin(Date.now() * 0.001 + this.x * 0.01) * 0.1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(0, 255, 200, ${Math.abs(this.alpha)})`;
-                ctx.fill();
-            }
+        update() {
+            this.y -= this.vy;
+            this.x += Math.sin(this.y * 0.01 + this.x * 0.01) * 0.3;
+            if (this.y < -20) this.reset();
+            this.alpha = 0.1 + Math.sin(Date.now() * 0.001 + this.x * 0.01) * 0.1;
         }
-
-        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animateParticles);
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(0, 255, 200, ${Math.abs(this.alpha)})`;
+            ctx.fill();
         }
-        animateParticles();
+    }
 
-        // Scroll Reveal
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    entry.target.querySelectorAll('.phase-progress-bar').forEach(bar => {
-                        setTimeout(() => { bar.style.width = '100%'; }, 300);
-                    });
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    for (let i = 0; i < 50; i++) particles.push(new Particle());
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
 
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
+    // ── Scroll Reveal ─────────────────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                entry.target.querySelectorAll('.phase-progress-bar').forEach(bar => {
+                    setTimeout(() => { bar.style.width = '100%'; }, 300);
+                });
+            }
         });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        // Phase card hover
-        document.querySelectorAll('.phase-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                const color = getComputedStyle(this).getPropertyValue('--card-color');
-                this.style.boxShadow = `0 10px 40px rgba(0,0,0,0.3), 0 0 30px ${color}40`;
-            });
-            card.addEventListener('mouseleave', function() {
-                this.style.boxShadow = '';
-            });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── Phase card hover ──────────────────────────────────────────────
+    document.querySelectorAll('.phase-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const color = getComputedStyle(this).getPropertyValue('--card-color');
+            this.style.boxShadow = `0 10px 40px rgba(0,0,0,0.3), 0 0 30px ${color}40`;
         });
+        card.addEventListener('mouseleave', function() { this.style.boxShadow = ''; });
+    });
 
-        // Terminal typing effect
-        const terminalObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const cmd = entry.target.querySelector('.terminal-command');
-                    if (cmd) {
-                        cmd.style.animation = 'none';
-                        setTimeout(() => { cmd.style.animation = 'type 3s steps(30) forwards'; }, 100);
-                    }
+    // ── Terminal typing effect ────────────────────────────────────────
+    const terminalObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const cmd = entry.target.querySelector('.terminal-command');
+                if (cmd) {
+                    cmd.style.animation = 'none';
+                    setTimeout(() => { cmd.style.animation = 'type 3s steps(30) forwards'; }, 100);
                 }
-            });
-        }, { threshold: 0.5 });
+            }
+        });
+    }, { threshold: 0.5 });
 
-        document.querySelectorAll('.deployment-terminal').forEach(el => terminalObserver.observe(el));
-    </script>
+    document.querySelectorAll('.deployment-terminal').forEach(el => terminalObserver.observe(el));
+</script>
 </body>
 </html>
