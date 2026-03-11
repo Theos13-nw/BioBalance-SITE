@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BioBalance: Digestive Control | System Access Terminal</title>
+    <title>BioBalance: Digestive System Explorer | System Access Terminal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -36,6 +36,99 @@
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
+        }
+
+        /* ── ENTRY OVERLAY ── */
+        #entry-overlay {
+            position: fixed;
+            inset: 0;
+            background: #050f23;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.9s ease;
+        }
+        #entry-overlay.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .overlay-logo {
+            font-size: clamp(2.8rem, 9vw, 5.5rem);
+            font-weight: 900;
+            color: #00ffc8;
+            text-shadow: 0 0 40px rgba(0,255,200,0.45);
+            letter-spacing: 0.08em;
+            margin-bottom: 0.3rem;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+        .overlay-sub {
+            font-family: 'Courier New', monospace;
+            font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+            color: #b8d4e3;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            margin-bottom: 3.5rem;
+        }
+        #enter-btn {
+            padding: 1.1rem 4rem;
+            border: 2px solid #00ffc8;
+            background: transparent;
+            color: #00ffc8;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+            animation: enterpulse 2.2s ease-in-out infinite;
+        }
+        #enter-btn:hover {
+            background: rgba(0,255,200,0.1);
+            box-shadow: 0 0 40px rgba(0,255,200,0.55);
+            transform: translateY(-3px);
+            animation: none;
+        }
+        @keyframes enterpulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(0,255,200,0.25); }
+            50%       { box-shadow: 0 0 32px rgba(0,255,200,0.65); }
+        }
+        .overlay-hint {
+            margin-top: 1.6rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.78rem;
+            color: rgba(184,212,227,0.45);
+            letter-spacing: 0.14em;
+        }
+
+        /* ── MUTE TOGGLE ── */
+        #mute-btn {
+            position: fixed;
+            bottom: 1.2rem;
+            right: 1.4rem;
+            z-index: 500;
+            background: rgba(5,15,35,0.88);
+            border: 1px solid rgba(0,255,200,0.28);
+            color: #00ffc8;
+            font-family: 'Courier New', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s, color 0.2s;
+            display: none;
+        }
+        #mute-btn:hover {
+            background: rgba(0,255,200,0.08);
+            border-color: rgba(0,255,200,0.65);
+        }
+        #mute-btn.muted {
+            color: #ff9090;
+            border-color: rgba(255,100,100,0.35);
         }
 
         /* ── NAV ── */
@@ -96,7 +189,7 @@
         }
         .hero-ctas { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
 
-        /* ── BUTTONS — all outline, no filled backgrounds ── */
+        /* ── BUTTONS ── */
         .btn-system {
             padding: 1rem 2.5rem;
             border: 2px solid var(--cyan);
@@ -119,76 +212,38 @@
             transform: translateY(-2px);
         }
         .btn-system:hover::before { left: 100%; }
-
-        .btn-system.secondary {
-            border-color: var(--text-muted); color: var(--text-muted);
-        }
-        .btn-system.secondary:hover {
-            border-color: var(--cyan); color: var(--cyan);
-            background: rgba(0, 255, 200, 0.06);
-        }
-
-        .btn-system.purple-btn {
-            border-color: var(--purple); color: var(--purple);
-        }
-        .btn-system.purple-btn::before {
-            background: linear-gradient(90deg, transparent, rgba(185,103,255,0.2), transparent);
-        }
-        .btn-system.purple-btn:hover {
-            background: rgba(185, 103, 255, 0.1);
-            box-shadow: 0 0 28px rgba(185,103,255,0.35);
-        }
+        .btn-system.secondary { border-color: var(--text-muted); color: var(--text-muted); }
+        .btn-system.secondary:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,255,200,0.06); }
+        .btn-system.purple-btn { border-color: var(--purple); color: var(--purple); }
+        .btn-system.purple-btn::before { background: linear-gradient(90deg, transparent, rgba(185,103,255,0.2), transparent); }
+        .btn-system.purple-btn:hover { background: rgba(185,103,255,0.1); box-shadow: 0 0 28px rgba(185,103,255,0.35); }
 
         /* ── SECTIONS ── */
-        .section {
-            padding: 6rem 2rem; position: relative; z-index: 10;
-            max-width: 1400px; margin: 0 auto;
-        }
+        .section { padding: 6rem 2rem; position: relative; z-index: 10; max-width: 1400px; margin: 0 auto; }
         .section-header { text-align: center; margin-bottom: 4rem; }
         .section-label {
             font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--cyan);
             letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem;
             display: flex; align-items: center; justify-content: center; gap: 1rem;
         }
-        .section-label::before, .section-label::after {
-            content: ''; width: 50px; height: 1px; background: var(--border);
-        }
-        .section-title {
-            font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; color: var(--text);
-            letter-spacing: 0.05em; margin-bottom: 1rem;
-        }
+        .section-label::before, .section-label::after { content: ''; width: 50px; height: 1px; background: var(--border); }
+        .section-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; color: var(--text); letter-spacing: 0.05em; margin-bottom: 1rem; }
 
         /* ── OVERVIEW ── */
-        .overview-panel {
-            background: var(--panel); border: 1px solid var(--border);
-            border-radius: 20px; padding: 3rem; position: relative; overflow: hidden;
-        }
-        .overview-panel::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.5;
-        }
+        .overview-panel { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 3rem; position: relative; overflow: hidden; }
+        .overview-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.5; }
         .overview-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
         .overview-text { font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; }
         .overview-text strong { color: var(--cyan); font-weight: 600; }
         .overview-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-        .stat-box {
-            background: rgba(0, 255, 200, 0.05); border: 1px solid var(--border);
-            border-radius: 10px; padding: 1.5rem; text-align: center;
-        }
+        .stat-box { background: rgba(0,255,200,0.05); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; }
         .stat-value { font-size: 1.6rem; font-weight: 700; color: var(--cyan); font-family: 'Courier New', monospace; }
         .stat-label { font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem; }
 
         /* ── PHASES ── */
         .phases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-        .phase-card {
-            background: var(--panel); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px;
-            padding: 2rem; position: relative; cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); overflow: hidden;
-        }
-        .phase-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
-            background: var(--card-color); opacity: 0; transition: opacity 0.3s;
-        }
+        .phase-card { background: var(--panel); border: 2px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 2rem; position: relative; cursor: pointer; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); overflow: hidden; }
+        .phase-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--card-color); opacity: 0; transition: opacity 0.3s; }
         .phase-card:hover { transform: scale(1.03); border-color: var(--card-color); box-shadow: 0 10px 40px rgba(0,0,0,0.3), 0 0 20px var(--card-glow); }
         .phase-card:hover::before { opacity: 1; }
         .phase-card[data-phase="0"] { --card-color: var(--cyan);  --card-glow: rgba(0,255,200,0.2); }
@@ -219,11 +274,8 @@
 
         /* ── DOWNLOAD ── */
         .download-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
-        .deployment-terminal {
-            background: var(--panel); border: 1px solid var(--border);
-            border-radius: 15px; padding: 3rem;
-        }
-        .deployment-terminal.mobile-terminal { border-color: rgba(185, 103, 255, 0.35); }
+        .deployment-terminal { background: var(--panel); border: 1px solid var(--border); border-radius: 15px; padding: 3rem; }
+        .deployment-terminal.mobile-terminal { border-color: rgba(185,103,255,0.35); }
         .terminal-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
         .terminal-prompt { font-family: 'Courier New', monospace; color: var(--cyan); font-size: 1.2rem; }
         .terminal-prompt.purple { color: var(--purple); }
@@ -272,7 +324,7 @@
         @keyframes type   { to { width: 100%; } }
         @keyframes fadeIn { to { opacity: 1; } }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4,0,0.2,1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* ── TABLET (<=968px) ── */
@@ -331,6 +383,7 @@
             .footer-content { gap: 0.4rem; }
             .section-label { font-size: 0.75rem; }
             .section-label::before, .section-label::after { width: 25px; }
+            #mute-btn { font-size: 0.68rem; padding: 0.4rem 0.7rem; bottom: 0.8rem; right: 0.8rem; }
         }
 
         /* ── VERY SMALL (<=380px) ── */
@@ -343,6 +396,20 @@
 </head>
 <body>
 
+<!-- ── Entry overlay ── -->
+<div id="entry-overlay">
+    <div class="overlay-logo">BioBalance</div>
+    <div class="overlay-sub">Digestive System Explorer</div>
+    <button id="enter-btn">ENTER</button>
+    <div class="overlay-hint">&#9836;&nbsp; Audio will play on entry</div>
+</div>
+
+<!-- Background audio -->
+<audio id="bg-audio" src="bgloop.mp3" loop preload="auto"></audio>
+
+<!-- Mute toggle (shown after entry) -->
+<button id="mute-btn">&#9654; MUSIC ON</button>
+
 <canvas id="particle-canvas"></canvas>
 
 <!-- Nav -->
@@ -351,7 +418,7 @@
     <div class="nav-right">
         <button class="nav-link purple" onclick="smoothScrollTo('download')">Mobile</button>
         <button class="nav-link cyan"   onclick="smoothScrollTo('download')">Download</button>
-        <div class="nav-status">SYSTEM ONLINE // v1.0.2026</div>
+        <div class="nav-status">SYSTEM ONLINE // 2026</div>
     </div>
 </nav>
 
@@ -383,7 +450,7 @@
     <div class="overview-panel reveal">
         <div class="overview-content">
             <div class="overview-text">
-                <p><strong>BioBalance: Digestive Control</strong> is an interactive educational simulation designed to help students understand the processes of digestion and nutrient absorption in the human body. The game integrates <strong>structured learning phases</strong>, <strong>system-based interactions</strong>, and <strong>quiz-based reinforcement</strong> to promote active learning in biology classrooms.</p>
+                <p><strong>BioBalance: Digestive System Explorer</strong> is an interactive educational simulation designed to help students understand the processes of digestion and nutrient absorption in the human body. The game integrates <strong>structured learning phases</strong>, <strong>system-based interactions</strong>, and <strong>quiz-based reinforcement</strong> to promote active learning in biology classrooms.</p>
                 <p style="margin-top: 1rem;">Navigate through four critical phases: Cephalic activation, Gastric processing, Duodenal homeostasis, and Villi absorption. Each phase features real-time feedback mechanisms, metabolic tracking, and mastery-based progression systems.</p>
             </div>
             <div class="overview-stats">
@@ -460,32 +527,32 @@
         <div class="telemetry-frame reveal">
             <div class="telemetry-header"><span class="telemetry-label">CAM_01 // JOURNEY_MAP</span><span class="telemetry-status">LIVE</span></div>
             <div class="telemetry-viewport"><img src="images/screenshot-menu.png" alt="Journey Map"></div>
-            <div class="telemetry-overlay">> System Grid: ONLINE<br>> Phase Selection: ACTIVE<br>> Integrity Monitor: 100%</div>
+            <div class="telemetry-overlay">&gt; System Grid: ONLINE<br>&gt; Phase Selection: ACTIVE<br>&gt; Integrity Monitor: 100%</div>
         </div>
         <div class="telemetry-frame reveal">
             <div class="telemetry-header"><span class="telemetry-label">CAM_02 // CEPHALIC_PHASE</span><span class="telemetry-status">LIVE</span></div>
             <div class="telemetry-viewport"><img src="images/screenshot-cephalic.png" alt="Cephalic Phase"></div>
-            <div class="telemetry-overlay">> Vagus Nerve: STIMULATED<br>> Metabolic Prep: ACTIVE<br>> Saliva Accumulation: 170/170</div>
+            <div class="telemetry-overlay">&gt; Vagus Nerve: STIMULATED<br>&gt; Metabolic Prep: ACTIVE<br>&gt; Saliva Accumulation: 170/170</div>
         </div>
         <div class="telemetry-frame reveal">
             <div class="telemetry-header"><span class="telemetry-label">CAM_03 // GASTRIC_PHASE</span><span class="telemetry-status">LIVE</span></div>
             <div class="telemetry-viewport"><img src="images/screenshot-gastric.png" alt="Gastric Phase"></div>
-            <div class="telemetry-overlay">> pH Level: 2.0 [OPTIMAL]<br>> Pepsin Status: ACTIVE<br>> Protein Digestion: 87%</div>
+            <div class="telemetry-overlay">&gt; pH Level: 2.0 [OPTIMAL]<br>&gt; Pepsin Status: ACTIVE<br>&gt; Protein Digestion: 87%</div>
         </div>
         <div class="telemetry-frame reveal">
             <div class="telemetry-header"><span class="telemetry-label">CAM_04 // DUODENAL_PHASE</span><span class="telemetry-status">LIVE</span></div>
             <div class="telemetry-viewport"><img src="images/screenshot-duodenal.png" alt="Duodenal Phase"></div>
-            <div class="telemetry-overlay">> Secretin: 185/200 [HIGH]<br>> CCK: 192/200 [HIGH]<br>> Homeostasis: ACHIEVED</div>
+            <div class="telemetry-overlay">&gt; Secretin: 185/200 [HIGH]<br>&gt; CCK: 192/200 [HIGH]<br>&gt; Homeostasis: ACHIEVED</div>
         </div>
         <div class="telemetry-frame reveal">
             <div class="telemetry-header"><span class="telemetry-label">CAM_05 // VILLI_TRANSPORT</span><span class="telemetry-status">LIVE</span></div>
             <div class="telemetry-viewport"><img src="images/screenshot-absorption.png" alt="Villi Phase"></div>
-            <div class="telemetry-overlay">> SGLT1 Co-transport: ACTIVE<br>> NHE3 Exchange: ACTIVE<br>> Lacteal Uptake: 100%</div>
+            <div class="telemetry-overlay">&gt; SGLT1 Co-transport: ACTIVE<br>&gt; NHE3 Exchange: ACTIVE<br>&gt; Lacteal Uptake: 100%</div>
         </div>
         <div class="telemetry-frame reveal">
             <div class="telemetry-header"><span class="telemetry-label">CAM_06 // REFLECTION_GATE</span><span class="telemetry-status">LIVE</span></div>
             <div class="telemetry-viewport"><img src="images/screenshot-reflectiongate.png" alt="Reflection Gate"></div>
-            <div class="telemetry-overlay">> Quiz Protocol: ACTIVE<br>> Mastery Tracking: ENABLED<br>> Current Score: 5/5 [PERFECT]</div>
+            <div class="telemetry-overlay">&gt; Quiz Protocol: ACTIVE<br>&gt; Mastery Tracking: ENABLED<br>&gt; Current Score: 5/5 [PERFECT]</div>
         </div>
     </div>
 </section>
@@ -523,7 +590,7 @@
                 <table class="specs-table">
                     <tr><td>PLATFORM</td><td>Android (Chrome) / iOS (Safari)</td></tr>
                     <tr><td>TYPE</td><td>Progressive Web App (PWA)</td></tr>
-                    <tr><td>INSTALL</td><td>Add to Home Screen/ Click Install</td></tr>
+                    <tr><td>INSTALL</td><td>Add to Home Screen / Click Install</td></tr>
                     <tr><td>OFFLINE</td><td>Yes — after first online load</td></tr>
                     <tr><td>ORIENTATION</td><td>Landscape Only</td></tr>
                     <tr><td>SOURCE</td><td>theos13-nw.github.io/BioBalanceMobile</td></tr>
@@ -630,11 +697,53 @@
 </footer>
 
 <script>
-    // ── Internal smooth scroll — no href hash, no URL change ─────────
+    // ── Internal smooth scroll ────────────────────────────────────────
     function smoothScrollTo(id) {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // ── Entry overlay + background audio ─────────────────────────────
+    (function () {
+        const overlay  = document.getElementById('entry-overlay');
+        const enterBtn = document.getElementById('enter-btn');
+        const bgAudio  = document.getElementById('bg-audio');
+        const muteBtn  = document.getElementById('mute-btn');
+
+        bgAudio.volume = 0;
+
+        // Smooth volume fade-in over `ms` milliseconds
+        function fadeIn(target, ms) {
+            const steps    = 50;
+            const interval = ms / steps;
+            const inc      = target / steps;
+            let cur        = 0;
+            const t = setInterval(() => {
+                cur = Math.min(cur + inc, target);
+                bgAudio.volume = cur;
+                if (cur >= target) clearInterval(t);
+            }, interval);
+        }
+
+        enterBtn.addEventListener('click', function handler() {
+            enterBtn.removeEventListener('click', handler);
+            bgAudio.play().then(() => fadeIn(0.18, 2200)).catch(() => {});
+            overlay.classList.add('fade-out');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                muteBtn.style.display = 'block';
+            }, 950);
+        });
+
+        // Mute / unmute toggle
+        let muted = false;
+        muteBtn.addEventListener('click', () => {
+            muted = !muted;
+            bgAudio.muted = muted;
+            muteBtn.classList.toggle('muted', muted);
+            muteBtn.innerHTML = muted ? '&#9646;&#9646; MUSIC OFF' : '&#9654; MUSIC ON';
+        });
+    })();
 
     // ── Particle background ───────────────────────────────────────────
     const canvas = document.getElementById('particle-canvas');
