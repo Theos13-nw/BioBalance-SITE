@@ -200,6 +200,17 @@
             background: transparent;
         }
 
+        .btn-system.mobile-special {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        .btn-system.mobile-special:hover {
+            background: var(--purple);
+            color: var(--bg-deep);
+            box-shadow: 0 0 30px rgba(185, 103, 255, 0.4);
+        }
+
         .section {
             padding: 6rem 2rem;
             position: relative;
@@ -778,110 +789,6 @@
             .phases-grid { gap: 0.8rem; }
             .hero-title { font-size: 2.8rem; }
         }
-        /* ── MOBILE PWA SECTION ── */
-        .mobile-section {
-            background: linear-gradient(135deg, rgba(185, 103, 255, 0.08) 0%, rgba(0, 255, 200, 0.05) 100%);
-            border: 1px solid rgba(185, 103, 255, 0.25);
-            border-radius: 20px;
-            padding: 3rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-        .mobile-info h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #b967ff;
-            margin-bottom: 0.5rem;
-        }
-        .mobile-info .mobile-sub {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-        }
-        .mobile-info p {
-            color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-        .mobile-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-        .mobile-features li {
-            padding: 0.4rem 0;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-        .mobile-features li::before {
-            content: '▸';
-            color: #b967ff;
-            margin-right: 0.6rem;
-        }
-        .btn-mobile {
-            padding: 1rem 2.5rem;
-            border: 2px solid #b967ff;
-            background: #b967ff;
-            color: #050f23;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-        .btn-mobile:hover {
-            background: transparent;
-            color: #b967ff;
-            box-shadow: 0 0 30px rgba(185,103,255,0.4);
-            transform: translateY(-2px);
-        }
-        .mobile-qr-box {
-            background: rgba(185, 103, 255, 0.07);
-            border: 1px solid rgba(185, 103, 255, 0.2);
-            border-radius: 16px;
-            padding: 2.5rem;
-            text-align: center;
-        }
-        .mobile-qr-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        .mobile-qr-url {
-            font-family: 'Courier New', monospace;
-            font-size: 0.82rem;
-            color: #b967ff;
-            word-break: break-all;
-            background: rgba(185,103,255,0.1);
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            display: block;
-        }
-        .mobile-qr-note {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-        .mobile-platform-note {
-            margin-top: 1rem;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-        @media (max-width: 768px) {
-            .mobile-section { grid-template-columns: 1fr; gap: 2rem; }
-        }
     </style>
 </head>
 <body>
@@ -890,33 +797,24 @@
 
     <nav class="nav-terminal">
         <div class="nav-logo">BioBalance</div>
-        <div style="display:flex; gap:1.5rem; align-items:center;">
-            <a href="#mobile" style="color:#b967ff; font-size:0.85rem; text-decoration:none; letter-spacing:0.05em; font-weight:600;">MOBILE</a>
-            <a href="#download" style="color:var(--cyan); font-size:0.85rem; text-decoration:none; letter-spacing:0.05em; font-weight:600;">WINDOWS</a>
-            <div class="nav-status">SYSTEM ONLINE // v1.0.2026</div>
-        </div>
+        <div class="nav-status">SYSTEM ONLINE // v1.0.2026</div>
     </nav>
 
-    <!-- Hero -->
     <section class="hero-terminal">
-        <div class="hero-badge">EDUCATIONAL SIMULATION // DIGESTIVE SYSTEM // WINDOWS &amp; MOBILE PWA</div>
+        <div class="hero-badge">EDUCATIONAL SIMULATION // DIGESTIVE SYSTEM</div>
         <h1 class="hero-title">BioBalance</h1>
         <p class="hero-subtitle">Digestive Control</p>
-        <p class="hero-tagline">Four phases. One digestive journey. Can you keep your body in balance? Available on Windows and as an installable mobile app.</p>
+        <p class="hero-tagline">Four phases. One digestive journey. Can you keep your body in balance?</p>
         <div class="hero-ctas">
-            <a href="#download" class="btn-system primary">
-                Windows
+            <a href="https://theos13-nw.github.io/BioBalanceMobile/" class="btn-system primary mobile-special" target="_blank">
+                <span>📱</span> Access Mobile Interface
             </a>
-            <a href="https://theos13-nw.github.io/BioBalanceMobile" class="btn-system" target="_blank" style="border-color:#b967ff; color:#b967ff;">
-                Play on Mobile
-            </a>
-            <a href="#overview" class="btn-system secondary">
-                View System Specs
+            <a href="#download" class="btn-system secondary">
+                <span>⬇</span> Download Windows (v1.0)
             </a>
         </div>
     </section>
 
-    <!-- Overview -->
     <section class="section" id="overview">
         <div class="section-header reveal">
             <div class="section-label">System Documentation</div>
@@ -950,7 +848,6 @@
         </div>
     </section>
 
-    <!-- Phase Modules -->
     <section class="section">
         <div class="section-header reveal">
             <div class="section-label">Process Architecture</div>
@@ -992,7 +889,6 @@
         </div>
     </section>
 
-    <!-- Visual Telemetry -->
     <section class="section">
         <div class="section-header reveal">
             <div class="section-label">Live Feeds</div>
@@ -1086,56 +982,54 @@
         </div>
     </section>
 
-    <!-- Mobile PWA Section -->
-    <section class="section" id="mobile">
-        <div class="section-header reveal">
-            <div class="section-label">Mobile Deployment</div>
-            <h2 class="section-title">Play on Mobile</h2>
-        </div>
-        <div class="mobile-section reveal">
-            <div class="mobile-info">
-                <h3>BioBalance Mobile PWA</h3>
-                <div class="mobile-sub">Progressive Web App // Android &amp; iOS</div>
-                <p>
-                    BioBalance is currently optimized for <strong style="color:var(--cyan)">Windows desktop</strong> as its primary platform.
-                    A mobile version is also available as a <strong style="color:#b967ff">Progressive Web App (PWA)</strong> —
-                    install it directly from your browser, no app store required.
-                </p>
-                <ul class="mobile-features">
-                    <li>Installable on Android &amp; iOS home screen</li>
-                    <li>Runs full-screen — no browser bars</li>
-                    <li>Works offline after first load</li>
-                    <li>Landscape orientation optimized</li>
-                    <li>All 4 phases + quiz system included</li>
-                    <li>Progress saved between sessions</li>
-                </ul>
-                <p class="mobile-platform-note">
-                    ⚠ Note: The desktop (Windows) version offers the most polished experience.
-                    The mobile PWA is fully playable but best experienced on a tablet or larger phone in landscape mode.
-                </p>
-                <a href="https://theos13-nw.github.io/BioBalanceMobile" class="btn-mobile" target="_blank">
-                    Open Mobile Version
-                </a>
-            </div>
-            <div class="mobile-qr-box">
-                <span class="mobile-qr-icon" style="font-size:3rem; letter-spacing:0.1em; color:#b967ff; font-weight:900;">PWA</span>
-                <span class="mobile-qr-url">theos13-nw.github.io/BioBalanceMobile</span>
-                <p class="mobile-qr-note">
-                    Open the link on your phone or tablet.<br><br>
-                    On <strong style="color:var(--cyan)">Android (Chrome)</strong>: tap the menu → "Add to Home Screen"<br><br>
-                    On <strong style="color:#b967ff">iOS (Safari)</strong>: tap Share → "Add to Home Screen"<br><br>
-                    Once installed, it launches like a native app — no browser, no bars, full screen.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Download Module -->
     <section class="section" id="download">
         <div class="section-header reveal">
             <div class="section-label">System Deployment</div>
             <h2 class="section-title">Download Module</h2>
         </div>
+
+        <div class="deployment-terminal reveal" style="margin-bottom: 2rem; border-color: var(--purple);">
+            <div class="terminal-header">
+                <span class="terminal-prompt">></span>
+                <span class="terminal-command">CONNECT https://theos13-nw.github.io/BioBalanceMobile/</span>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-line">
+                    <span class="terminal-highlight">[NETWORK]</span> Establishing secure handshake with GitHub Pages...
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-highlight">[REMOTE]</span> Mobile-optimized viewport detected
+                </div>
+
+                <table class="specs-table">
+                    <tr>
+                        <td>PLATFORM</td>
+                        <td>Web Browser (Chrome/Safari/Firefox)</td>
+                    </tr>
+                    <tr>
+                        <td>OPTIMIZATION</td>
+                        <td>PWA Ready / Touch-Enabled</td>
+                    </tr>
+                    <tr>
+                        <td>CONNECTIVITY</td>
+                        <td>Requires Active Internet Connection</td>
+                    </tr>
+                    <tr>
+                        <td>SOURCE</td>
+                        <td>theos13-nw.github.io</td>
+                    </tr>
+                </table>
+
+                <div style="margin-top: 2rem; text-align: center;">
+                    <a href="https://theos13-nw.github.io/BioBalanceMobile/" 
+                       class="btn-system primary mobile-special" 
+                       target="_blank">
+                        <span>⚡</span> LAUNCH WEB APP
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <div class="deployment-terminal reveal">
             <div class="terminal-header">
                 <span class="terminal-prompt">></span>
@@ -1197,7 +1091,6 @@
         </div>
     </section>
 
-    <!-- Developer Profile -->
     <section class="section">
         <div class="section-header reveal">
             <div class="section-label">System Architect</div>
@@ -1217,7 +1110,7 @@
                 <div class="developer-role">SYSTEM DESIGNER // EDUCATIONAL APPLICATION</div>
                 <div class="developer-email">
                     <span>✉</span>
-                    <a href="/cdn-cgi/l/email-protection#e7868b938f8288848695838e8b8b88d6d2a7808a868e8bc984888a"><span class="__cf_email__" data-cfemail="1f7e736b777a707c7e6d7b767373702e2a5f78727e7673317c7072">[email&#160;protected]</span></a>
+                    <a href="mailto:altheocardillo15@gmail.com">altheocardillo15@gmail.com</a>
                 </div>
                 <p class="developer-bio">
                    A Bachelor of Secondary Education student majoring in General Science, getting into interactive simulations and science-based learning systems. BioBalance: Digestive Control represents an initiative to create offline, engaging, and accessible biology education tools through immersive gameplay mechanics and mastery-based progression systems.                </p>
@@ -1225,18 +1118,17 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="system-footer">
         <div class="footer-content">
             <div class="footer-system">BioBalance: Digestive Control // v1.0.2026</div>
             <div class="footer-copy">© 2026 Altheo Cardillo</div>
             <div class="footer-email">
-                <a href="/cdn-cgi/l/email-protection#442528302c212b272536202d28282b7571042329252d286a272b29"><span class="__cf_email__" data-cfemail="93f2ffe7fbf6fcf0f2e1f7fafffffca2a6d3f4fef2faffbdf0fcfe">[email&#160;protected]</span></a>
+                <a href="mailto:altheocardillo15@gmail.com">altheocardillo15@gmail.com</a>
             </div>
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -1323,4 +1215,15 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const cmd = entry.target.querySelector('.terminal-command');
-               
+                    if (cmd) {
+                        cmd.style.animation = 'none';
+                        setTimeout(() => { cmd.style.animation = 'type 3s steps(30) forwards'; }, 100);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.deployment-terminal').forEach(el => terminalObserver.observe(el));
+    </script>
+</body>
+</html>
