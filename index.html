@@ -17,6 +17,7 @@
             --blue: #6496ff;
             --amber: #ffc800;
             --purple: #b967ff;
+            --green: #64ff96;
             --text: #ffffff;
             --text-muted: #b8d4e3;
             --panel: rgba(15, 30, 50, 0.9);
@@ -250,6 +251,7 @@
         .phase-card[data-phase="1"] { --card-color: var(--red);   --card-glow: rgba(255,100,100,0.2); }
         .phase-card[data-phase="2"] { --card-color: var(--blue);  --card-glow: rgba(100,150,255,0.2); }
         .phase-card[data-phase="3"] { --card-color: var(--amber); --card-glow: rgba(255,200,50,0.2); }
+        .phase-card[data-phase="4"] { --card-color: var(--green); --card-glow: rgba(100,255,150,0.2); }
         .phase-number { font-family: 'Courier New', monospace; font-size: 0.9rem; color: var(--card-color); margin-bottom: 1rem; letter-spacing: 0.1em; }
         .phase-title { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
         .phase-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem; }
@@ -258,7 +260,7 @@
         .phase-progress { margin-top: 1.5rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
         .phase-progress-bar { height: 100%; background: var(--card-color); width: 0%; transition: width 1s ease-out; box-shadow: 0 0 10px var(--card-color); }
 
-        /* ── SNEAK PEEK (formerly Telemetry) ── */
+        /* ── SNEAK PEEK ── */
         .sneakpeek-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .sneakpeek-frame { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/10; }
         .sneakpeek-header { position: absolute; top: 0; left: 0; right: 0; padding: 0.75rem 1rem; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; font-size: 0.75rem; z-index: 10; }
@@ -269,7 +271,7 @@
         .sneakpeek-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%); font-family: 'Courier New', monospace; font-size: 0.7rem; color: var(--text-muted); transform: translateY(100%); transition: transform 0.3s; line-height: 1.6; }
         .sneakpeek-frame:hover .sneakpeek-overlay { transform: translateY(0); }
 
-        /* ── DOWNLOAD / PWA SECTION ── */
+        /* ── PWA SECTION ── */
         .pwa-container { max-width: 900px; margin: 0 auto; }
         .pwa-terminal { background: var(--panel); border: 1px solid var(--border); border-radius: 15px; padding: 3rem; border-color: rgba(185,103,255,0.35); }
         .terminal-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
@@ -395,10 +397,6 @@
 <!-- Nav -->
 <nav class="nav-terminal">
     <div class="nav-logo">BioBalance</div>
-    <div class="nav-right">
-        <button class="nav-link purple" onclick="smoothScrollTo('download')">Mobile</button>
-        <button class="nav-link cyan"   onclick="smoothScrollTo('download')">Download</button>
-        <div class="nav-status">SYSTEM ONLINE // v1.0.2026</div>
     </div>
 </nav>
 
@@ -491,10 +489,18 @@
             <div class="phase-status">SYSTEM READY</div>
             <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
         </div>
+        <div class="phase-card" data-phase="4">
+            <div class="phase-number">PHASE 04</div>
+            <h3 class="phase-title">Knowledge<br>Check</h3>
+            <p class="phase-subtitle">Reflection Gate</p>
+            <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem;">Comprehensive assessment module testing mastery of digestive concepts. Adaptive questioning with immediate feedback and concept reinforcement.</p>
+            <div class="phase-status">SYSTEM READY</div>
+            <div class="phase-progress"><div class="phase-progress-bar" style="width:100%"></div></div>
+        </div>
     </div>
 </section>
 
-<!-- Game Sneak Peek (formerly Visual Telemetry) -->
+<!-- Game Sneak Peek -->
 <section class="section">
     <div class="section-header reveal">
         <div class="section-label">Preview</div>
@@ -575,7 +581,7 @@
                 <!-- Installation Guides -->
                 <div class="install-guides">
                     <div class="install-guide">
-                        <h4><span style="font-size:1.2rem;">&#63743;</span> iOS / iPadOS</h4>
+                        <h4><span style="font-size:1.2rem;"></span> iOS / iPadOS</h4>
                         <ol>
                             <li>Open <strong>Safari</strong> and navigate to the BioBalance URL</li>
                             <li>Tap the <strong>Share</strong> button (square with arrow)</li>
@@ -588,7 +594,7 @@
                     </div>
 
                     <div class="install-guide">
-                        <h4><span style="font-size:1.2rem;">&#128241;</span> Android</h4>
+                        <h4><span style="font-size:1.2rem;"></span> Android</h4>
                         <ol>
                             <li>Open <strong>Chrome</strong> and navigate to the BioBalance URL</li>
                             <li>Tap the <strong>three-dot menu</strong> (top right)</li>
@@ -601,7 +607,7 @@
                     </div>
 
                     <div class="install-guide">
-                        <h4><span style="font-size:1.2rem;">&#128187;</span> Desktop</h4>
+                        <h4><span style="font-size:1.2rem;"></span> Desktop</h4>
                         <ol>
                             <li>Open <strong>Chrome</strong> or <strong>Edge</strong> and visit the URL</li>
                             <li>Look for the <strong>install icon</strong> in the address bar</li>
