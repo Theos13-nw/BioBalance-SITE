@@ -258,27 +258,22 @@
         .phase-progress { margin-top: 1.5rem; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
         .phase-progress-bar { height: 100%; background: var(--card-color); width: 0%; transition: width 1s ease-out; box-shadow: 0 0 10px var(--card-color); }
 
-        /* ── TELEMETRY ── */
-        .telemetry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .telemetry-frame { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/10; }
-        .telemetry-header { position: absolute; top: 0; left: 0; right: 0; padding: 0.75rem 1rem; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; font-size: 0.75rem; z-index: 10; }
-        .telemetry-label { color: var(--cyan); letter-spacing: 0.1em; font-weight: 600; }
-        .telemetry-status { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); }
-        .telemetry-status::before { content: '●'; color: #ff0000; animation: blink 1s step-end infinite; }
-        .telemetry-frame.active .telemetry-status::before { color: #00ff00; }
-        .telemetry-viewport { width: 100%; height: 100%; position: relative; overflow: hidden; }
-        .telemetry-viewport img { width: 100%; height: 100%; object-fit: contain; object-position: center; transition: transform 0.5s ease; }
-        .telemetry-frame:hover .telemetry-viewport img { transform: scale(1.05); }
-        .telemetry-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%); font-family: 'Courier New', monospace; font-size: 0.7rem; color: var(--text-muted); transform: translateY(100%); transition: transform 0.3s; line-height: 1.6; }
-        .telemetry-frame:hover .telemetry-overlay { transform: translateY(0); }
+        /* ── SNEAK PEEK (formerly Telemetry) ── */
+        .sneakpeek-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .sneakpeek-frame { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/10; }
+        .sneakpeek-header { position: absolute; top: 0; left: 0; right: 0; padding: 0.75rem 1rem; background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%); display: flex; justify-content: space-between; align-items: center; font-family: 'Courier New', monospace; font-size: 0.75rem; z-index: 10; }
+        .sneakpeek-label { color: var(--cyan); letter-spacing: 0.1em; font-weight: 600; }
+        .sneakpeek-viewport { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        .sneakpeek-viewport img { width: 100%; height: 100%; object-fit: contain; object-position: center; transition: transform 0.5s ease; }
+        .sneakpeek-frame:hover .sneakpeek-viewport img { transform: scale(1.05); }
+        .sneakpeek-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%); font-family: 'Courier New', monospace; font-size: 0.7rem; color: var(--text-muted); transform: translateY(100%); transition: transform 0.3s; line-height: 1.6; }
+        .sneakpeek-frame:hover .sneakpeek-overlay { transform: translateY(0); }
 
-        /* ── DOWNLOAD ── */
-        .download-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
-        .deployment-terminal { background: var(--panel); border: 1px solid var(--border); border-radius: 15px; padding: 3rem; }
-        .deployment-terminal.mobile-terminal { border-color: rgba(185,103,255,0.35); }
+        /* ── DOWNLOAD / PWA SECTION ── */
+        .pwa-container { max-width: 900px; margin: 0 auto; }
+        .pwa-terminal { background: var(--panel); border: 1px solid var(--border); border-radius: 15px; padding: 3rem; border-color: rgba(185,103,255,0.35); }
         .terminal-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
-        .terminal-prompt { font-family: 'Courier New', monospace; color: var(--cyan); font-size: 1.2rem; }
-        .terminal-prompt.purple { color: var(--purple); }
+        .terminal-prompt { font-family: 'Courier New', monospace; color: var(--purple); font-size: 1.2rem; }
         .terminal-command { font-family: 'Courier New', monospace; color: var(--text); font-size: 1rem; animation: type 3s steps(30) 1s forwards; white-space: nowrap; overflow: hidden; width: 0; }
         .terminal-body { font-family: 'Courier New', monospace; color: var(--text-muted); line-height: 1.8; }
         .terminal-line { margin-bottom: 0.5rem; opacity: 0; animation: fadeIn 0.5s forwards; }
@@ -286,15 +281,21 @@
         .terminal-line:nth-child(2) { animation-delay: 2.5s; }
         .terminal-line:nth-child(3) { animation-delay: 3s; }
         .terminal-line:nth-child(4) { animation-delay: 3.5s; }
-        .terminal-highlight { color: var(--cyan); }
-        .terminal-highlight.purple { color: var(--purple); }
-        .terminal-warning { background: rgba(255,200,0,0.1); border-left: 3px solid var(--amber); padding: 1rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; color: var(--amber); line-height: 1.8; font-size: 0.88rem; }
+        .terminal-highlight { color: var(--purple); }
         .terminal-info { background: rgba(185,103,255,0.07); border-left: 3px solid var(--purple); padding: 1rem; margin: 1.5rem 0; border-radius: 0 8px 8px 0; color: var(--text-muted); line-height: 1.8; font-size: 0.88rem; }
-        .drive-notice { background: rgba(0,255,200,0.05); border-left: 3px solid var(--cyan); padding: 1rem; margin: 1rem 0 0 0; border-radius: 0 8px 8px 0; color: var(--text-muted); font-size: 0.85rem; line-height: 1.8; }
         .specs-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
         .specs-table td { padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
         .specs-table td:first-child { color: var(--text-muted); width: 40%; }
         .specs-table td:last-child { color: var(--text); }
+
+        /* ── PWA INSTALL GUIDES ── */
+        .install-guides { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .install-guide { background: rgba(0,255,200,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+        .install-guide h4 { color: var(--cyan); font-size: 0.95rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .install-guide ol { margin-left: 1.2rem; font-size: 0.85rem; color: var(--text-muted); line-height: 1.9; }
+        .install-guide li { margin-bottom: 0.5rem; }
+        .install-guide .note { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: var(--amber); font-style: italic; }
+        .browser-tag { display: inline-block; background: rgba(0,255,200,0.1); color: var(--cyan); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; margin-right: 0.3rem; }
 
         /* ── FOOTER ── */
         .system-footer { background: rgba(5,15,35,0.98); border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-muted); position: relative; z-index: 10; }
@@ -319,9 +320,9 @@
             .overview-content { grid-template-columns: 1fr; gap: 2rem; }
             .overview-panel { padding: 2rem; }
             .phases-grid { grid-template-columns: repeat(2, 1fr); }
-            .telemetry-grid { grid-template-columns: repeat(2, 1fr); }
-            .download-grid { grid-template-columns: 1fr; }
-            .deployment-terminal { padding: 2rem 1.5rem; }
+            .sneakpeek-grid { grid-template-columns: repeat(2, 1fr); }
+            .install-guides { grid-template-columns: 1fr; }
+            .pwa-terminal { padding: 2rem 1.5rem; }
             .specs-table td { font-size: 0.85rem; padding: 0.6rem; }
             .footer-content { flex-direction: column; text-align: center; gap: 0.5rem; }
         }
@@ -345,17 +346,19 @@
             .stat-value { font-size: 1.3rem; }
             .phases-grid { grid-template-columns: 1fr; gap: 1rem; }
             .phase-card { padding: 1.5rem; }
-            .telemetry-grid { grid-template-columns: 1fr; gap: 1rem; }
-            .telemetry-header { font-size: 0.65rem; padding: 0.5rem 0.75rem; }
-            .deployment-terminal { padding: 1.5rem 1rem; }
+            .sneakpeek-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .sneakpeek-header { font-size: 0.65rem; padding: 0.5rem 0.75rem; }
+            .pwa-terminal { padding: 1.5rem 1rem; }
             .terminal-command { font-size: 0.82rem; }
-            .terminal-warning, .terminal-info { font-size: 0.82rem; padding: 0.75rem; }
+            .terminal-info { font-size: 0.82rem; padding: 0.75rem; }
+            .install-guide { padding: 1.2rem; }
+            .install-guide h4 { font-size: 0.85rem; }
+            .install-guide ol { font-size: 0.8rem; }
             .specs-table { display: block; }
             .specs-table tbody { display: block; }
             .specs-table tr { display: flex; flex-direction: column; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0.5rem 0; }
             .specs-table td { display: block; width: 100%; border-bottom: none; padding: 0.2rem 0.4rem; font-size: 0.82rem; }
             .specs-table td:first-child { color: var(--cyan); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; }
-            .drive-notice { font-size: 0.8rem; }
             .system-footer { padding: 1.5rem 1rem; font-size: 0.78rem; }
             .footer-content { gap: 0.4rem; }
             .section-label { font-size: 0.75rem; }
@@ -407,10 +410,7 @@
     <p class="hero-tagline">Four phases. One digestive journey. Can you keep your body in balance?</p>
     <div class="hero-ctas">
         <button class="btn-system purple-btn" onclick="smoothScrollTo('download')">
-            Access Mobile Version
-        </button>
-        <button class="btn-system" onclick="smoothScrollTo('download')">
-            Download for Windows
+            Install PWA
         </button>
         <button class="btn-system secondary" onclick="smoothScrollTo('overview')">
             View System Specs
@@ -444,8 +444,8 @@
                     <div class="stat-label">Mastery Tracking</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-value">Win64 / iOS / Droid</div>
-                    <div class="stat-label">Platform Support</div>
+                    <div class="stat-value">PWA</div>
+                    <div class="stat-label">Cross-Platform</div>
                 </div>
             </div>
         </div>
@@ -494,141 +494,136 @@
     </div>
 </section>
 
-<!-- Visual Telemetry -->
+<!-- Game Sneak Peek (formerly Visual Telemetry) -->
 <section class="section">
     <div class="section-header reveal">
-        <div class="section-label">Live Feeds</div>
-        <h2 class="section-title">Visual Telemetry</h2>
+        <div class="section-label">Preview</div>
+        <h2 class="section-title">Game Sneak Peek</h2>
     </div>
-    <div class="telemetry-grid">
-        <div class="telemetry-frame reveal">
-            <div class="telemetry-header"><span class="telemetry-label">CAM_01 // JOURNEY_MAP</span><span class="telemetry-status">LIVE</span></div>
-            <div class="telemetry-viewport"><img src="images/screenshot-menu.png" alt="Journey Map"></div>
-            <div class="telemetry-overlay">&gt; System Grid: ONLINE<br>&gt; Phase Selection: ACTIVE<br>&gt; Integrity Monitor: 100%</div>
+    <div class="sneakpeek-grid">
+        <div class="sneakpeek-frame reveal">
+            <div class="sneakpeek-header"><span class="sneakpeek-label">JOURNEY_MAP</span></div>
+            <div class="sneakpeek-viewport"><img src="images/screenshot-menu.png" alt="Journey Map"></div>
+            <div class="sneakpeek-overlay">Phase selection interface showing all four digestive system modules</div>
         </div>
-        <div class="telemetry-frame reveal">
-            <div class="telemetry-header"><span class="telemetry-label">CAM_02 // CEPHALIC_PHASE</span><span class="telemetry-status">LIVE</span></div>
-            <div class="telemetry-viewport"><img src="images/screenshot-cephalic.png" alt="Cephalic Phase"></div>
-            <div class="telemetry-overlay">&gt; Vagus Nerve: STIMULATED<br>&gt; Metabolic Prep: ACTIVE<br>&gt; Saliva Accumulation: 170/170</div>
+        <div class="sneakpeek-frame reveal">
+            <div class="sneakpeek-header"><span class="sneakpeek-label">CEPHALIC_PHASE</span></div>
+            <div class="sneakpeek-viewport"><img src="images/screenshot-cephalic.png" alt="Cephalic Phase"></div>
+            <div class="sneakpeek-overlay">Sensory stimulation mechanics and vagus nerve activation</div>
         </div>
-        <div class="telemetry-frame reveal">
-            <div class="telemetry-header"><span class="telemetry-label">CAM_03 // GASTRIC_PHASE</span><span class="telemetry-status">LIVE</span></div>
-            <div class="telemetry-viewport"><img src="images/screenshot-gastric.png" alt="Gastric Phase"></div>
-            <div class="telemetry-overlay">&gt; pH Level: 2.0 [OPTIMAL]<br>&gt; Pepsin Status: ACTIVE<br>&gt; Protein Digestion: 87%</div>
+        <div class="sneakpeek-frame reveal">
+            <div class="sneakpeek-header"><span class="sneakpeek-label">GASTRIC_PHASE</span></div>
+            <div class="sneakpeek-viewport"><img src="images/screenshot-gastric.png" alt="Gastric Phase"></div>
+            <div class="sneakpeek-overlay">pH control interface with pepsin activation visualization</div>
         </div>
-        <div class="telemetry-frame reveal">
-            <div class="telemetry-header"><span class="telemetry-label">CAM_04 // DUODENAL_PHASE</span><span class="telemetry-status">LIVE</span></div>
-            <div class="telemetry-viewport"><img src="images/screenshot-duodenal.png" alt="Duodenal Phase"></div>
-            <div class="telemetry-overlay">&gt; Secretin: 185/200 [HIGH]<br>&gt; CCK: 192/200 [HIGH]<br>&gt; Homeostasis: ACHIEVED</div>
+        <div class="sneakpeek-frame reveal">
+            <div class="sneakpeek-header"><span class="sneakpeek-label">DUODENAL_PHASE</span></div>
+            <div class="sneakpeek-viewport"><img src="images/screenshot-duodenal.png" alt="Duodenal Phase"></div>
+            <div class="sneakpeek-overlay">Hormonal balance system with Secretin and CCK tracking</div>
         </div>
-        <div class="telemetry-frame reveal">
-            <div class="telemetry-header"><span class="telemetry-label">CAM_05 // VILLI_TRANSPORT</span><span class="telemetry-status">LIVE</span></div>
-            <div class="telemetry-viewport"><img src="images/screenshot-absorption.png" alt="Villi Phase"></div>
-            <div class="telemetry-overlay">&gt; SGLT1 Co-transport: ACTIVE<br>&gt; NHE3 Exchange: ACTIVE<br>&gt; Lacteal Uptake: 100%</div>
+        <div class="sneakpeek-frame reveal">
+            <div class="sneakpeek-header"><span class="sneakpeek-label">VILLI_TRANSPORT</span></div>
+            <div class="sneakpeek-viewport"><img src="images/screenshot-absorption.png" alt="Villi Phase"></div>
+            <div class="sneakpeek-overlay">Nutrient absorption through intestinal villi structures</div>
         </div>
-        <div class="telemetry-frame reveal">
-            <div class="telemetry-header"><span class="telemetry-label">CAM_06 // REFLECTION_GATE</span><span class="telemetry-status">LIVE</span></div>
-            <div class="telemetry-viewport"><img src="images/screenshot-reflectiongate.png" alt="Reflection Gate"></div>
-            <div class="telemetry-overlay">&gt; Quiz Protocol: ACTIVE<br>&gt; Mastery Tracking: ENABLED<br>&gt; Current Score: 5/5 [PERFECT]</div>
+        <div class="sneakpeek-frame reveal">
+            <div class="sneakpeek-header"><span class="sneakpeek-label">REFLECTION_GATE</span></div>
+            <div class="sneakpeek-viewport"><img src="images/screenshot-reflectiongate.png" alt="Reflection Gate"></div>
+            <div class="sneakpeek-overlay">Knowledge check system with mastery tracking</div>
         </div>
     </div>
 </section>
 
-<!-- Download Module -->
+<!-- PWA Download Module -->
 <section class="section" id="download">
     <div class="section-header reveal">
         <div class="section-label">System Deployment</div>
-        <h2 class="section-title">Download Module</h2>
+        <h2 class="section-title">Install BioBalance</h2>
     </div>
 
-    <div class="download-grid">
-
-        <!-- Mobile / PWA -->
-        <div class="deployment-terminal mobile-terminal reveal">
+    <div class="pwa-container">
+        <div class="pwa-terminal reveal">
             <div class="terminal-header">
-                <span class="terminal-prompt purple">&gt;</span>
-                <span class="terminal-command">CONNECT BioBalanceMobile // PWA</span>
+                <span class="terminal-prompt">&gt;</span>
+                <span class="terminal-command">INSTALL BioBalanceMobile // PWA</span>
             </div>
             <div class="terminal-body">
                 <div class="terminal-line">
-                    <span class="terminal-highlight purple">[NETWORK]</span> Locating GitHub Pages endpoint...
+                    <span class="terminal-highlight">[NETWORK]</span> Locating GitHub Pages endpoint...
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-highlight purple">[STATUS]</span> Interface ready — Android / iOS
+                    <span class="terminal-highlight">[STATUS]</span> Interface ready — All Platforms
                 </div>
                 <div class="terminal-line">
-                    <span class="terminal-highlight purple">[MODE]</span> Installation required, also runs in browser
+                    <span class="terminal-highlight">[MODE]</span> Progressive Web App — Install Once, Play Anywhere
                 </div>
 
                 <div class="terminal-info">
-                    An active internet connection is required on the first load only. Once visited, the PWA caches all game assets locally and can be played completely offline — no Wi-Fi or data needed after that. Install it to your home screen for a full-screen, app-like experience.
+                    <strong>First-time setup required:</strong> An active internet connection is needed on the first load only. Once visited, the PWA caches all game assets locally and can be played completely offline — no Wi-Fi or data needed after that. Install it to your home screen for a full-screen, app-like experience.
                 </div>
 
                 <table class="specs-table">
-                    <tr><td>PLATFORM</td><td>Android (Chrome) / iOS (Safari)</td></tr>
+                    <tr><td>PLATFORM</td><td>iOS, Android, Windows, macOS, ChromeOS</td></tr>
                     <tr><td>TYPE</td><td>Progressive Web App (PWA)</td></tr>
-                    <tr><td>INSTALL</td><td>Add to Home Screen / Click Install</td></tr>
+                    <tr><td>INSTALL</td><td>Add to Home Screen / Click Install Button</td></tr>
                     <tr><td>OFFLINE</td><td>Yes — after first online load</td></tr>
-                    <tr><td>ORIENTATION</td><td>Portrait &amp; Landscape (Best Gaming Experience ) — plays in both</td></tr>
+                    <tr><td>ORIENTATION</td><td>Portrait &amp; Landscape — plays in both</td></tr>
+                    <tr><td>STORAGE</td><td>Caches locally for offline play</td></tr>
                     <tr><td>SOURCE</td><td>theos13-nw.github.io/BioBalanceMobile</td></tr>
                 </table>
 
-                <div style="margin-top:2rem;text-align:center;">
+                <!-- Installation Guides -->
+                <div class="install-guides">
+                    <div class="install-guide">
+                        <h4><span style="font-size:1.2rem;">&#63743;</span> iOS / iPadOS</h4>
+                        <ol>
+                            <li>Open <strong>Safari</strong> and navigate to the BioBalance URL</li>
+                            <li>Tap the <strong>Share</strong> button (square with arrow)</li>
+                            <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+                            <li>Tap <strong>"Add"</strong> in the top right corner</li>
+                        </ol>
+                        <div class="note">
+                            <span class="browser-tag">Safari</span> Required for iOS 16.3 and earlier. iOS 16.4+ also supports Chrome, Edge, and Firefox via Share menu.
+                        </div>
+                    </div>
+
+                    <div class="install-guide">
+                        <h4><span style="font-size:1.2rem;">&#128241;</span> Android</h4>
+                        <ol>
+                            <li>Open <strong>Chrome</strong> and navigate to the BioBalance URL</li>
+                            <li>Tap the <strong>three-dot menu</strong> (top right)</li>
+                            <li>Select <strong>"Add to Home screen"</strong> or <strong>"Install app"</strong></li>
+                            <li>Tap <strong>"Add"</strong> or <strong>"Install"</strong> in the popup</li>
+                        </ol>
+                        <div class="note">
+                            <span class="browser-tag">Chrome</span> <span class="browser-tag">Edge</span> <span class="browser-tag">Samsung Internet</span> All support automatic install prompts on Android.
+                        </div>
+                    </div>
+
+                    <div class="install-guide">
+                        <h4><span style="font-size:1.2rem;">&#128187;</span> Desktop</h4>
+                        <ol>
+                            <li>Open <strong>Chrome</strong> or <strong>Edge</strong> and visit the URL</li>
+                            <li>Look for the <strong>install icon</strong> in the address bar</li>
+                            <li>Click <strong>"Install"</strong> when prompted</li>
+                            <li>Or use the <strong>three-dot menu</strong> → "Install BioBalance"</li>
+                        </ol>
+                        <div class="note">
+                            Windows: App appears in Start Menu. macOS: App appears in Launchpad & Spotlight. Linux: Available in app launcher.
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:2.5rem;text-align:center;">
                     <a href="https://theos13-nw.github.io/BioBalanceMobile/"
                        class="btn-system purple-btn"
                        style="padding:1.2rem 3rem;font-size:1.1rem;"
                        target="_blank">
-                        Initiate Install
+                        Launch BioBalance
                     </a>
                 </div>
             </div>
         </div>
-
-        <!-- Windows -->
-        <div class="deployment-terminal reveal">
-            <div class="terminal-header">
-                <span class="terminal-prompt">&gt;</span>
-                <span class="terminal-command">OPEN BioBalance_Setup_v1 // Windows</span>
-            </div>
-            <div class="terminal-body">
-                <div class="terminal-line">
-                    <span class="terminal-highlight">[INFO]</span> Standalone installer for Windows 10 / 11
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-highlight">[SOURCE]</span> Hosted on Google Drive — direct download
-                </div>
-                <div class="terminal-line">
-                    <span class="terminal-highlight">[NOTE]</span> Download needed to play</div>
-
-                <div class="terminal-warning">
-                    SECURITY PROTOCOL: If Windows displays a SmartScreen warning, select "More Info" then "Run Anyway". This is normal for unsigned academic software, 2026.
-                </div>
-
-                <table class="specs-table">
-                    <tr><td>FILE_SIZE</td><td>\~173 MB (self-extracting installer)</td></tr>
-                    <tr><td>PLATFORM</td><td>Windows 10/11 (64-bit)</td></tr>
-                    <tr><td>REQUIREMENTS</td><td>4GB RAM, OpenGL 2.0, Audio enabled</td></tr>
-                    <tr><td>LICENSE</td><td>Educational Use Only (CC BY-NC-ND 4.0)</td></tr>
-                    <tr><td>HOST</td><td>Google Drive (direct download)</td></tr>
-                </table>
-
-                <div style="margin-top:2rem;text-align:center;">
-                    <a href="https://drive.google.com/uc?export=download&id=1God6F1XDsi8Zl1-ne-5J8sIxjiZFRACd"
-                       class="btn-system"
-                       style="padding:1.2rem 3rem;font-size:1.1rem;"
-                       target="_blank">
-                        Initiate Download
-                    </a>
-                    <div class="drive-notice">
-                        Google Drive may show a <strong style="color:var(--cyan)">"Can't scan for viruses"</strong> warning
-                        because the file exceeds 100MB. This is expected — click
-                        <strong style="color:var(--cyan)">"Download anyway"</strong> to proceed.
-                        The file is safe academic software.
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </section>
 
@@ -785,7 +780,7 @@
         });
     }, { threshold: 0.5 });
 
-    document.querySelectorAll('.deployment-terminal').forEach(el => terminalObserver.observe(el));
+    document.querySelectorAll('.pwa-terminal').forEach(el => terminalObserver.observe(el));
 </script>
 </body>
 </html>
